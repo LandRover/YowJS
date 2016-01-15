@@ -8,8 +8,4 @@ Lib info
 
 `npm install yowjs`
 
-## Contributors
-
- - Raynos
-
 ## MIT Licenced
