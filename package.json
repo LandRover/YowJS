@@ -1,12 +1,15 @@
 {
   "name": "yowjs",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "YowJS",
-  "main": "src/index.js",
+  "main": "src/yowjs.js",
+  "devDependencies": {
+    "istanbul": "^0.4.2",
+    "eslint": "^1.10.3"
+  },
   "dependencies": {
     "async": "^1.5.2",
-    "error": "^7.0.2",
-    "istanbul": "^0.4.2"
+    "error": "^7.0.2"
   },
   "repository": {
     "type": "git",
@@ -15,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/LandRover/YowJS/issues"
   },
-  "devDependencies": {},
+  
   "scripts": {
     "test": "karma",
     "install_yowsup": "sudo easy_install yowsup2"
