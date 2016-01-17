@@ -1,66 +1,50 @@
 'use strict';
 
-const payloads = [
+const payloadsList = [
     require('./payloads/message_private'),
     require('./payloads/message_group')
 ];
 
 class Payload {
-    constructor(message) {
-        this.message = message;
+    constructor(payload) {
+        this.payload = payload;
     }
-    
-    
-    payloadNormalizer(payload) {
-        payload = this.payloadMatch(payload);
 
-        let message = {
-                type: 'message',
-                id: null,
-                from: null,
-                to: null,
-                date: null,
-                text: null
-            };
 
-        if (null === payload) return payload;
-
-        message.from = payload.shift();
-        message.text = payload.pop();
-        message.id = payload.pop();
-        message.date = payload.pop();
-
-        // date fix
-        message.date = this.getDateObject(message.date);
-
-        if (0 < payload.length) {
-            message.type = 'group';
-            message.to = payload.shift() +'-'+ payload.shift();
-        }
-
-        return message;
+    getPayload() {
+        return this.payload;
     }
-    
-    
+
+
+    get() {
+        return this.normalizer();
+    }
+
+
+    normalizer() {
+        let payload = this.findMatchingPayload(this.getPayload());
+
+        if (null === payload)
+            return payload;
+
+        return payload.getMessageModel();
+    }
+
+
     /**
      *
      */
-    payloadMatch() {
-        let patterns = this.getPatterns(),
-            matchedPayload = null;
+    findMatchingPayload(message) {
+        for (let i = 0, len = payloadsList.length; i < len; i++) {
+            let foundMatching = new payloadsList[i](message);
 
-        payloads.forEach(payload => {
-            let match = this.message.match(payload);
+            if (false !== foundMatching.isItMe())
+                return foundMatching;
+        }
 
-            if (null !== match) {
-                match.shift(); // removes the first field, the whole match
-                matchedPayload = match;
-            }
-        });
-
-        return matchedPayload;
+        return null;
     }
-    
+
 }
 
 module.exports = Payload;
