@@ -1,7 +1,7 @@
 'use strict';
 
-let chai = require('chai');
-let expect = require('chai').expect;
+let chai = require('chai'),
+    expect = require('chai').expect;
 
 describe('Payload', () => {
     it('returns a string', () => {

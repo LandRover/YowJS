@@ -15,10 +15,10 @@
     "eslint": "^1.10.3",
     "chai": "^3.4.1",
     "mocha": "^2.3.3",
+    "sinon": "^1.17.2",
     "phantomjs2": "^2.0.2",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4",
-    "sinon": "^1.17.2",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.12.1"
   },
