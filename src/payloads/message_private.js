@@ -1,6 +1,6 @@
 'use strict';
 
-const BasePayload = require('./payloads/base_payload');
+const BasePayload = require('./base_payload');
 
 class MessagePrivate extends BasePayload {
 
