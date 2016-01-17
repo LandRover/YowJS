@@ -11,27 +11,6 @@ class Payload {
     }
     
     
-
-    /**
-     *
-     */
-    payloadMatch() {
-        let patterns = this.getPatterns(),
-            matchedPayload = null;
-
-        payloads.forEach(payload => {
-            let match = this.message.match(payload);
-
-            if (null !== match) {
-                match.shift(); // removes the first field, the whole match
-                matchedPayload = match;
-            }
-        });
-
-        return matchedPayload;
-    }
-
-
     payloadNormalizer(payload) {
         payload = this.payloadMatch(payload);
 
@@ -61,6 +40,26 @@ class Payload {
 
         return message;
     }
+    
+    /**
+     *
+     */
+    payloadMatch() {
+        let patterns = this.getPatterns(),
+            matchedPayload = null;
+
+        payloads.forEach(payload => {
+            let match = this.message.match(payload);
+
+            if (null !== match) {
+                match.shift(); // removes the first field, the whole match
+                matchedPayload = match;
+            }
+        });
+
+        return matchedPayload;
+    }
+    
 }
 
 module.exports = Payload;
