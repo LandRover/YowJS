@@ -41,6 +41,7 @@ class Payload {
         return message;
     }
     
+    
     /**
      *
      */
