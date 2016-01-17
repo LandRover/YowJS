@@ -1,6 +1,6 @@
 {
   "name": "yowjs",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "YowJS",
   "main": "src/yowjs.js",
   "devDependencies": {
@@ -29,7 +29,9 @@
   },
   "config": {
     "blanket": {
-      "pattern": [ "src/yowjs.js" ],
+      "pattern": [
+        "src/yowjs.js"
+      ],
       "data-cover-never": "node_modules"
     }
   },
@@ -40,7 +42,6 @@
   "bugs": {
     "url": "https://github.com/LandRover/YowJS/issues"
   },
-  
   "scripts": {
     "test": "mocha && mocha test --require blanket --reporter html-cov > coverage.html",
     "install_yowsup": "sudo easy_install yowsup2"
