@@ -17,7 +17,6 @@ class MessagePrivate extends BasePayload {
     initializeModel(model) {
         return new MessageModel(model);
     }
-
 }
 
 module.exports = MessagePrivate;

@@ -35,9 +35,6 @@ class BasePayload {
 
         return this.messageModel;
     }
-
-
-
 }
 
 module.exports = BasePayload;

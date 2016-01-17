@@ -1,26 +1,41 @@
 'use strict';
 
-const payloadsList = [
+const messageTypes = [
     require('./payloads/message_private'),
     require('./payloads/message_group')
 ];
 
+/**
+ *
+ */
 class Payload {
+    /**
+     *
+     */
     constructor(payload) {
         this.payload = payload;
     }
 
 
+    /**
+     *
+     */
     getPayload() {
         return this.payload;
     }
 
 
+    /**
+     *
+     */
     get() {
         return this.normalizer();
     }
 
 
+    /**
+     *
+     */
     normalizer() {
         let payload = this.findMatchingPayload(this.getPayload());
 
@@ -35,11 +50,11 @@ class Payload {
      *
      */
     findMatchingPayload(message) {
-        for (let i = 0, len = payloadsList.length; i < len; i++) {
-            let foundMatching = new payloadsList[i](message);
+        for (let i = 0, len = messageTypes.length; i < len; i++) {
+            let type = new messageTypes[i](message);
 
-            if (false !== foundMatching.isItMe())
-                return foundMatching;
+            if (false !== type.isItMe())
+                return type;
         }
 
         return null;
