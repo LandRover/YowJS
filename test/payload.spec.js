@@ -21,13 +21,10 @@ let MSG_POOL = {
 
 describe('Payload', () => {
 
-    it('returns a string', () => {
-        let payload = new Payload(MSG_POOL.INVALID_FORMAT);
+    it('Should be a Group Message', () => {
+        let payload = new Payload(MSG_POOL.MESSAGE_GROUP_TEXT),
+            messageType = payload.getMessage().getType();
 
-        var t = payload.getMessage().getType();
-        console.log(t === TYPES.UNKNOWN);
-
-        expect(payload).to.equal(payload);
-
+        expect(messageType).to.equal(TYPES.MESSAGE_GROUP);
     });
 });
