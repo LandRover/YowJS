@@ -1,7 +1,8 @@
 'use strict';
 
+let cmd;
 const _ = require('lodash'),
-    cmd,
+    Logger = require('./logger'),
     spawn = require('child_process').spawn,
     EventEmitter = require('events').EventEmitter,
     onError = () => {},
@@ -17,6 +18,8 @@ class YowsupRuntime {
      *
      */
     constructor() {
+        Logger.log('debug', '[YowsupRuntime::Constructor] Initialized Constructor');
+
         _.extend(this, {
             // cli cmd path
             cliPath: '/usr/local/bin/yowsup-cli',
@@ -27,8 +30,6 @@ class YowsupRuntime {
             phoneNumber: null,
             password: null
         });
-
-
     }
 
 
@@ -36,6 +37,8 @@ class YowsupRuntime {
      *
      */
     setCredentials(countryCode, phoneNumber, password) {
+        Logger.log('debug', '[YowsupRuntime::setCredentials] Setter for Credentials', arguments);
+
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -48,6 +51,8 @@ class YowsupRuntime {
      *
      */
     setCliPath(cliPath) {
+        Logger.log('debug', '[YowsupRuntime::setCliPath] Setter for Yowsup2-cli executable', arguments);
+
         this.cliPath = cliPath;
 
         return this;
@@ -90,6 +95,8 @@ class YowsupRuntime {
         let args = this.getCMDWithArgs(),
             options = {cwd: __dirname};
 
+        Logger.log('debug', '[YowsupRuntime::run] Executing Python Yowsup2-cli deamon', args, options);
+
         cmd = spawn('python', args, options);
         cmd.stdin.setEncoding('utf-8');
 
@@ -109,9 +116,8 @@ class YowsupRuntime {
      *
      */
     send(args) {
-        if (_.isArray(args)) {
+        if (_.isArray(args))
             args = args.join(' ');
-        }
 
         let command = [
                 this.cmdPrefix,
@@ -119,7 +125,7 @@ class YowsupRuntime {
                 '\n'
             ].join('');
 
-        console.log('DEBUG: ' + command);
+        Logger.log('debug', '[YowsupRuntime::send] Sending API call to service', command);
 
         cmd.stdin.write(command);
     }
