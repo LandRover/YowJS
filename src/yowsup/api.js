@@ -9,12 +9,15 @@ class API {
     /**
      *
      */
-    constructor(cmd, Logger) {
-        this.cmd = cmd;
-        this.cmdPrefix = '/';
-        this.Logger = Logger;
+    constructor(cmd, Logger, Emitter) {
+        Logger.log('debug', '[API::Constructor] Initialized Constructor');
 
-        this.Logger.log('debug', '[API::Constructor] Initialized Constructor');
+        _.extend(this, {
+            cmd: cmd,
+            cmdPrefix: '/',
+            Logger: Logger,
+            Emitter: Emitter
+        });
     }
 
 

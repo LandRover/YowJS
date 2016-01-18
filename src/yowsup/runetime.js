@@ -17,7 +17,7 @@ class YowsupRuntime {
     /**
      *
      */
-    constructor() {
+    constructor(Logger, Emitter) {
         Logger.log('debug', '[YowsupRuntime::Constructor] Initialized Constructor');
 
         _.extend(this, {
@@ -31,7 +31,10 @@ class YowsupRuntime {
             phoneNumber: null,
             password: null,
 
-            api: new API(this.cmd, Logger)
+            api: new API(this.cmd, Logger),
+
+            Logger: Logger,
+            Emitter: Emitter
         });
 
     }
