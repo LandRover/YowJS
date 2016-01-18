@@ -3,6 +3,11 @@
 const _ = require('lodash'),
       TYPES = require('./types');
 
+/**
+ * MessageBase.
+ *
+ * Shared logic between all message types is represented here.
+ */
 class MessageBase {
     /**
      * Stores payload message on object

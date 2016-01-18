@@ -1,8 +1,14 @@
 'use strict';
 
+/**
+ * BasePayload.
+ *
+ * Is a shared logic between all the possible payloads in the system.
+ * The differance for the indevidual payloads are the regex pattern and the Message object they create.
+ */
 class BasePayload {
     /**
-     *
+     * Constructor for storing the payload.
      */
     constructor(payload) {
         this.payload = payload;

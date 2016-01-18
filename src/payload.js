@@ -8,11 +8,14 @@ const payloadTypes = [
       MessageBase = require('./message/message_base');
 
 /**
+ * Playload.
  *
+ * Represents the incoming payloads sent externally and matching the proper message Objects.
+ * Each payload arriving is initialized into a Payload object.
  */
 class Payload {
     /**
-     *
+     * Constructor method that stores the payload locally.
      */
     constructor(payload) {
         this.payload = payload;
@@ -20,30 +23,28 @@ class Payload {
 
 
     /**
+     * Getter for the message
      *
+     * @return {Message} object, matched by the payload regex settings
      */
     getMessage() {
-        return this.normalizer();
+        var payload = this.findPayloadByType();
+
+        if (null !== payload)
+            return payload.getMessage();
+
+        return new MessageBase({
+            payload: this.payload
+        });
     }
 
 
     /**
+     * Match payload to a payloadType
      *
+     * @return {Payload} object, according to the matched response type.
      */
-    normalizer() {
-        let payload = this.findMatch();
-
-        if (null === payload)
-            return new MessageBase({raw: this.payload});
-
-        return payload.getMessage();
-    }
-
-
-    /**
-     *
-     */
-    findMatch() {
+    findPayloadByType() {
         for (let i = 0, len = payloadTypes.length; i < len; i++) {
             let type = new payloadTypes[i](this.payload);
 
