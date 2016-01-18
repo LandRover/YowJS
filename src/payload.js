@@ -22,7 +22,7 @@ class Payload {
     /**
      *
      */
-    get() {
+    getMessage() {
         return this.normalizer();
     }
 
@@ -36,7 +36,7 @@ class Payload {
         if (null === payload)
             return new MessageBase({raw: this.payload});
 
-        return payload.getMessageModel();
+        return payload.getMessage();
     }
 
 

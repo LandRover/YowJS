@@ -3,8 +3,8 @@
 let chai = require('chai'),
     expect = chai.expect,
     Payload = require('./../src/payload.js'),
-    MessagePrivate = require('./../src/payload/payload_private'),
-    MessageGroup = require('./../src/payload/payload_group');
+    PayloadPrivate = require('./../src/payload/payload_private'),
+    PayloadGroup = require('./../src/payload/payload_group');
 
 let MSG_POOL = {
     INVALID_FORMAT: 'it is invalid message format',
@@ -23,7 +23,7 @@ describe('Payload', () => {
     it('returns a string', () => {
         let payload = new Payload(MSG_POOL.INVALID_FORMAT);
 
-        var t = payload.get();
+        var t = payload.getMessage().getType();
         console.log(t);
 
         expect(payload).to.equal(payload);

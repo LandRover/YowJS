@@ -16,7 +16,7 @@ class BasePayload {
      * @return {Boolean}
      */
     isItMe() {
-        return null !== this.getMessageModel();
+        return null !== this.getMessage();
     }
 
 
@@ -25,7 +25,7 @@ class BasePayload {
      *
      * @return {Object} Message(Group/Private) instance - with a proper message type, when not matched, null.
      */
-    getMessageModel() {
+    getMessage() {
         // return cached model, if exists.
         if (null !== this.messageModel)
             return this.messageModel;
