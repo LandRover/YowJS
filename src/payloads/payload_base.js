@@ -21,19 +21,35 @@ class BasePayload {
 
 
     /**
+     * Initializes a model by regex matching.
      *
+     * @return {Object} Message(Group/Private) instance - with a proper message type, when not matched, null.
      */
     getMessageModel() {
+        // return cached model, if exists.
         if (null !== this.messageModel)
             return this.messageModel;
 
-        let model = this.payload.match(this.getPattern());
+        // match pattern against payload received
+        let matchPattern = this.regexMatch();
 
-        if (null !== model)
-            this.messageModel = this.initializeModel(model);
+        // create a model, if match found.
+        if (null !== matchPattern)
+            return this.initializeModel(matchPattern);
 
-        return this.messageModel;
+        return matchPattern;
     }
+
+
+    /**
+     * Matching regex against text
+     *
+     * @return {Mixed} Array or null if not matched
+     */
+    regexMatch() {
+        return this.payload.match(this.getPattern());
+    }
+
 }
 
 module.exports = BasePayload;
