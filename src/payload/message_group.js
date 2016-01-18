@@ -3,6 +3,13 @@
 const PayloadBase = require('./payload_base'),
       MessageModel = require('../message/message_model');
 
+
+/**
+ * MessagePrivate Handles group messages arrived.
+ *
+ * All messages that match the pattern below, will be instances of this class.
+ * Also the payload is the gateway to the messages after parsing.
+ */
 class MessageGroup extends PayloadBase {
     /**
      * Creates a proper instance of a the message (executed only if pattern matched)

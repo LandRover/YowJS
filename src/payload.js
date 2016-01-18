@@ -1,8 +1,8 @@
 'use strict';
 
-const messageTypes = [
-    require('./payloads/message_private'),
-    require('./payloads/message_group')
+const payloadTypes = [
+    require('./payload/message_private'),
+    require('./payload/message_group')
 ];
 
 /**
@@ -42,8 +42,8 @@ class Payload {
      *
      */
     findMatch(message) {
-        for (let i = 0, len = messageTypes.length; i < len; i++) {
-            let type = new messageTypes[i](message);
+        for (let i = 0, len = payloadTypes.length; i < len; i++) {
+            let type = new payloadTypes[i](message);
 
             if (false !== type.isItMe())
                 return type;
