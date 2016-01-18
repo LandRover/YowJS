@@ -33,23 +33,8 @@ class YowJS  {
      *
      */
     constructor() {
-        this.cmdPrefix = '/';
-        this.countryCode = null;
-        this.phoneNumber = null;
-        this.password = null;
-
         this.subscribe();
     }
-
-
-    initialize(countryCode, phoneNumber, password) {
-        this.countryCode = countryCode;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-
-        return this;
-    }
-
 
 
     on(eventName, callback) {

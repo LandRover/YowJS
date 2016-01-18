@@ -1,13 +1,13 @@
 'use strict';
 
-let cmd;
 const _ = require('lodash'),
-    Logger = require('./logger'),
+    API = require('./api'),
+    Logger = require('../logger'),
     spawn = require('child_process').spawn,
     EventEmitter = require('events').EventEmitter,
     onError = () => {},
     emitter = new EventEmitter().on('error', onError),
-    EVENTS_LIST = require('./consts/events_list');
+    EVENTS_LIST = require('../consts/events_list');
 
 
 /**
@@ -21,15 +21,19 @@ class YowsupRuntime {
         Logger.log('debug', '[YowsupRuntime::Constructor] Initialized Constructor');
 
         _.extend(this, {
+            cmd: null,
+
             // cli cmd path
             cliPath: '/usr/local/bin/yowsup-cli',
-            cmdPrefix: '/',
 
             // credentials
             countryCode: null,
             phoneNumber: null,
-            password: null
+            password: null,
+
+            api: new API(this.cmd, Logger)
         });
+
     }
 
 
@@ -56,6 +60,14 @@ class YowsupRuntime {
         this.cliPath = cliPath;
 
         return this;
+    }
+
+
+    /**
+     *
+     */
+    getCMD() {
+        return this.cmd;
     }
 
 
@@ -95,16 +107,16 @@ class YowsupRuntime {
         let args = this.getCMDWithArgs(),
             options = {cwd: __dirname};
 
-        Logger.log('debug', '[YowsupRuntime::run] Executing Python Yowsup2-cli deamon', args, options);
+        Logger.log('info', '[YowsupRuntime::run] Executing Python Yowsup2-cli deamon', args, options);
 
-        cmd = spawn('python', args, options);
-        cmd.stdin.setEncoding('utf-8');
+        this.cmd = spawn('python', args, options);
+        this.cmd.stdin.setEncoding('utf-8');
 
-        cmd.stdout.on('data', message => {
+        this.cmd.stdout.on('data', message => {
             emitter.emit(EVENTS_LIST.ON_YOWSUP_RECEIVE, message.toString().trim());
         });
 
-        cmd.on('close', () => {
+        this.cmd.on('close', () => {
             this.onClose();
         });
 
@@ -125,9 +137,9 @@ class YowsupRuntime {
                 '\n'
             ].join('');
 
-        Logger.log('debug', '[YowsupRuntime::send] Sending API call to service', command);
+        Logger.log('info', '[YowsupRuntime::send] Sending API call to service', command);
 
-        cmd.stdin.write(command);
+        this.getCMD().stdin.write(command);
     }
 }
 
