@@ -37,7 +37,7 @@ class Payload {
      *
      */
     normalizer() {
-        let payload = this.findMatchingPayload(this.getPayload());
+        let payload = this.findMatch(this.getPayload());
 
         if (null === payload)
             return payload;
@@ -49,7 +49,7 @@ class Payload {
     /**
      *
      */
-    findMatchingPayload(message) {
+    findMatch(message) {
         for (let i = 0, len = messageTypes.length; i < len; i++) {
             let type = new messageTypes[i](message);
 

@@ -5,6 +5,7 @@ let cmd,
     EventEmitter = require('events').EventEmitter,
     onError = () => {},
     emitter = new EventEmitter().on('error', onError),
+    Payload = require('./payload'),
 
     EVENT = {
         ON_YOWSUP_RECEIVE: Symbol(),
@@ -131,6 +132,22 @@ class YowJS  {
     }
 
 
+    online() {
+        return this.send([
+            'presence',
+            'available'
+        ]);
+    }
+
+
+    offline() {
+        return this.send([
+            'presence',
+            'unavailable'
+        ]);
+    }
+
+
     send(args) {
         if (args instanceof Array) {
             args = args.join(' ');
@@ -145,82 +162,6 @@ class YowJS  {
         console.log('DEBUG: ' + command);
 
         cmd.stdin.write(command);
-    }
-
-
-    /**
-     *
-     */
-    payloadMatch(payload) {
-        let patterns = {
-                message: /^\[(\d+)@.*\((.*)\).*\]:\[(.*)\]\t (.*)/,             // [0000000000000@s.whatsapp.net(01-01-2016 01:01)]:[ABCDEF1234567890000]    Hi
-                group: /^\[(\d+)\/(\d+)-(\d+)@.*\((.*)\).*\]:\[(.*)\]\t (.*)/   // [0000000000000/0000000000000-1234567890@g.us(01-01-2016 01:01)]:[ABCDEF1234567890000]     Hi
-            },
-            matchedPayload = null;
-
-        Object.keys(patterns).forEach((idx) => {
-            let match = payload.match(patterns[idx]);
-
-            if (null !== match) {
-                match.shift(); // removes the first field, the whole match
-                matchedPayload = match;
-            }
-        });
-
-        return matchedPayload;
-    }
-
-
-    payloadNormalizer(payload) {
-        payload = this.payloadMatch(payload);
-
-        let message = {
-                type: 'message',
-                id: null,
-                from: null,
-                to: null,
-                date: null,
-                text: null
-            };
-
-        if (null === payload) return payload;
-
-        message.text = payload.pop();
-        message.id = payload.pop();
-        message.date = payload.pop();
-        message.from = payload.shift();
-
-        // date fix
-        message.date = this.getDateObject(message.date);
-
-        if (0 < payload.length) {
-            message.type = 'group';
-            message.to = payload.shift() +'-'+ payload.shift();
-        }
-
-        return message;
-    }
-
-
-    /**
-     * Converts date string into proper Date object.
-     *
-     * @return {Date}
-     */
-    getDateObject(stringDate) {
-        let pattern = /^([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)$/; // 01-01-2016 01:01
-        let date = stringDate.match(pattern);
-        date.shift(); // removes first match
-
-        let year = date[2],
-            month = parseInt(date[1])-1,
-            day = date[0],
-            hour = date[3],
-            minute = date[4],
-            seconds = 0,
-            miliseconds = 0;
-
-        return new Date(year, month, day, hour, minute, seconds, miliseconds);
     }
 
 
@@ -310,7 +251,6 @@ class YowJS  {
         emitter.on(EVENT.ON_YOWSUP_RECEIVE, payload => {
             this.onReceive(payload);
         });
-
 
         emitter.on(EVENT.CHAT_RECEIVE, message => {
             //console.log(['message', message]);
