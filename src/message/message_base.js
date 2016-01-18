@@ -18,7 +18,7 @@ class MessageBase {
      * @return {Object} Symbol referance of that type.
      */
     getType() {
-        return _.isEmpty(this.type) ? TYPES.UNKNOWN : this.type;
+        return _.isNil(this.type) ? TYPES.UNKNOWN : this.type;
     }
 }
 

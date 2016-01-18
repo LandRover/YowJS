@@ -22,7 +22,7 @@ let MSG_POOL = {
 describe('Payload', () => {
 
     it('returns a string', () => {
-        let payload = new Payload(MSG_POOL.MESSAGE_GROUP_TEXT);
+        let payload = new Payload(MSG_POOL.INVALID_FORMAT);
 
         var t = payload.getMessage().getType();
         console.log(t === TYPES.UNKNOWN);
