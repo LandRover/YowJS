@@ -247,6 +247,7 @@ class YowJS  {
             this.onReceive(payload);
         });
 
+
         emitter.on(EVENT.CHAT_RECEIVE, message => {
             //console.log(['message', message]);
         });
