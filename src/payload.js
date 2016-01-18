@@ -1,9 +1,11 @@
 'use strict';
 
+
 const payloadTypes = [
-    require('./payload/message_private'),
-    require('./payload/message_group')
-];
+          require('./payload/payload_private'),
+          require('./payload/payload_group')
+      ],
+      MessageBase = require('./message/message_base');
 
 /**
  *
@@ -29,10 +31,10 @@ class Payload {
      *
      */
     normalizer() {
-        let payload = this.findMatch(this.payload);
+        let payload = this.findMatch();
 
         if (null === payload)
-            return payload;
+            return new MessageBase();
 
         return payload.getMessageModel();
     }
@@ -41,9 +43,9 @@ class Payload {
     /**
      *
      */
-    findMatch(message) {
+    findMatch() {
         for (let i = 0, len = payloadTypes.length; i < len; i++) {
-            let type = new payloadTypes[i](message);
+            let type = new payloadTypes[i](this.payload);
 
             if (false !== type.isItMe())
                 return type;
