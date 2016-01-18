@@ -20,14 +20,6 @@ class Payload {
     /**
      *
      */
-    getPayload() {
-        return this.payload;
-    }
-
-
-    /**
-     *
-     */
     get() {
         return this.normalizer();
     }
@@ -37,7 +29,7 @@ class Payload {
      *
      */
     normalizer() {
-        let payload = this.findMatch(this.getPayload());
+        let payload = this.findMatch(this.payload);
 
         if (null === payload)
             return payload;

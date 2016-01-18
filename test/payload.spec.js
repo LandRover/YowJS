@@ -7,6 +7,7 @@ let chai = require('chai'),
     MessageGroup = require('./../src/payloads/message_group');
 
 let MSG_POOL = {
+    INVALID_FORMAT: 'it is invalid message format',
     MESSAGE_GROUP_TEXT: '[0000000000000/0000000000000-1234567890@g.us(01-01-2016 01:01)]:[ABCDEF1234567890000]\t Hi there',
     MESSAGE_GROUP_AUDIO: '[0000000000000/0000000000000-1234567890@g.us(01-01-2016 01:01)]:[ABCDEF1234567890000]\t [Media Type:audio, Size:8000, URL:https://mmi000.whatsapp.net/d/RANDOM-STUFF/ABCD5435345345435435345.aac]',
     MESSAGE_GROUP_IMAGE: '[0000000000000/0000000000000-1234567890@g.us(01-01-2016 01:01)]:[ABCDEF1234567890000]\t [Media Type:image, Size:9000, URL:https://mmi000.whatsapp.net/d/RANDOM-STUFF/ABCD5435345345435435345.jpg]',
@@ -20,7 +21,7 @@ let MSG_POOL = {
 describe('Payload', () => {
 
     it('returns a string', () => {
-        let payload = new Payload(MSG_POOL.MESSAGE_GROUP_TEXT);
+        let payload = new Payload(MSG_POOL.INVALID_FORMAT);
 
         var t = payload.get();
         console.log(t);

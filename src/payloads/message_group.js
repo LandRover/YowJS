@@ -1,9 +1,9 @@
 'use strict';
 
-const BasePayload = require('./base_payload'),
+const PayloadBase = require('./payload_base'),
       MessageModel = require('../message/message_model');
 
-class MessageGroup extends BasePayload {
+class MessageGroup extends PayloadBase {
     /**
      *
      */
