@@ -22,12 +22,12 @@ class MessageModel extends MessageBase {
     /**
      * Initialize Message from payload data into the current this.
      */
-    constructor(payload) {
-        super();
+    constructor(rawPayload) {
+        super(rawPayload);
 
         _.extend(
             this,
-            this._initMessageModel(payload)
+            this._initMessageModel(this.rawPayload)
         );
     }
 

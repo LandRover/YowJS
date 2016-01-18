@@ -3,8 +3,8 @@
 let chai = require('chai'),
     expect = chai.expect,
     Payload = require('./../src/payload.js'),
-    MessagePrivate = require('./../src/payloads/message_private'),
-    MessageGroup = require('./../src/payloads/message_group');
+    MessagePrivate = require('./../src/payload/payload_private'),
+    MessageGroup = require('./../src/payload/payload_group');
 
 let MSG_POOL = {
     INVALID_FORMAT: 'it is invalid message format',

@@ -34,7 +34,7 @@ class Payload {
         let payload = this.findMatch();
 
         if (null === payload)
-            return new MessageBase();
+            return new MessageBase({raw: this.payload});
 
         return payload.getMessageModel();
     }
