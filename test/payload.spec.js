@@ -2,6 +2,7 @@
 
 let chai = require('chai'),
     expect = chai.expect,
+    TYPES = require('../src/message/types'),
     Payload = require('./../src/payload.js'),
     PayloadPrivate = require('./../src/payload/payload_private'),
     PayloadGroup = require('./../src/payload/payload_group');
@@ -21,10 +22,10 @@ let MSG_POOL = {
 describe('Payload', () => {
 
     it('returns a string', () => {
-        let payload = new Payload(MSG_POOL.INVALID_FORMAT);
+        let payload = new Payload(MSG_POOL.MESSAGE_GROUP_TEXT);
 
         var t = payload.getMessage().getType();
-        console.log(t);
+        console.log(t === TYPES.UNKNOWN);
 
         expect(payload).to.equal(payload);
 
