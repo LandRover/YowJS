@@ -1,46 +1,57 @@
 'use strict';
 
-let extend = require('xtend');
+const _ = require('lodash'),
+      MessageBase = require('./message_base'),
+      TYPES = require('./types'),
 
-class Message {
-    
+      /**
+       * Base message structure, matches added on-top of this base.
+       *
+       * @var {Object}
+       */
+      DEFAULT_MESSAGE = {
+        type: TYPES.MESSAGE_PRIVATE, // defaults to PM
+        id: null,
+        from: null,
+        to: null,
+        date: null,
+        text: null
+      };
+
+class MessageModel extends MessageBase {
+    /**
+     *
+     */
     constructor(payload) {
-        extend(this, this._initMessageModel(payload));
-    }
-    
-    
-    _initMessageModel(payload) {
-        let message = this.getDefaultMessage();
+        super();
         
+        _.extend(
+            this,
+            this._initMessageModel(payload)
+        );
+    }
+
+
+    /**
+     *
+     */
+    _initMessageModel(payload) {
+        let message = DEFAULT_MESSAGE;
+
         message.from = payload.shift();
         message.text = payload.pop();
         message.id = payload.pop();
         message.date = this.getDateObject(payload.pop());
 
         if (0 < payload.length) {
-            message.type = 'group';
+            message.type = TYPES.MESSAGE_GROUP;
             message.to = payload.shift() +'-'+ payload.shift();
         }
-        
+
         return message;
     }
-    
-    
-    /**
-     * 
-     */
-    getDefaultMessage() {
-        return {
-            type: 'message',
-            id: null,
-            from: null,
-            to: null,
-            date: null,
-            text: null
-        };
-    }
-    
-    
+
+
     /**
      * Converts date string into proper Date object.
      *
@@ -63,4 +74,4 @@ class Message {
     }
 }
 
-module.exports = Message;
+module.exports = MessageModel;

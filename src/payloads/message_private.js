@@ -1,11 +1,9 @@
 'use strict';
 
 const BasePayload = require('./base_payload'),
-      MessageModel = require('../models/message');
+      MessageModel = require('../message/message_model');
 
 class MessagePrivate extends BasePayload {
-
-
     /**
      *
      */
@@ -14,6 +12,9 @@ class MessagePrivate extends BasePayload {
     }
 
 
+    /**
+     *
+     */
     initializeModel(model) {
         return new MessageModel(model);
     }

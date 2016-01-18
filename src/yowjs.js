@@ -165,11 +165,6 @@ class YowJS  {
     }
 
 
-    isNumeric(number) {
-        return !isNaN(parseFloat(number)) && isFinite(number);
-    }
-
-
     /**
      *
      */

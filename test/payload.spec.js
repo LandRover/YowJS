@@ -23,6 +23,7 @@ describe('Payload', () => {
         let payload = new Payload(MSG_POOL.MESSAGE_GROUP_TEXT);
 
         var t = payload.get();
+        console.log(t);
 
         expect(payload).to.equal(payload);
 
