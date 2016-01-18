@@ -6,6 +6,9 @@ const _ = require('lodash');
  *
  */
 class API {
+    /**
+     *
+     */
     constructor(cmd, Logger) {
         this.cmd = cmd;
         this.cmdPrefix = '/';
@@ -15,6 +18,9 @@ class API {
     }
 
 
+    /**
+     *
+     */
     say(to, text) {
         this._send([
             'message',
@@ -25,6 +31,9 @@ class API {
     }
 
 
+    /**
+     *
+     */
     image(to, path, caption) {
         return this._send([
             'image',
@@ -36,11 +45,17 @@ class API {
     }
 
 
+    /**
+     *
+     */
     login() {
         return this._send('L');
     }
 
 
+    /**
+     *
+     */
     online() {
         return this._send([
             'presence',
@@ -49,6 +64,9 @@ class API {
     }
 
 
+    /**
+     *
+     */
     offline() {
         return this._send([
             'presence',
