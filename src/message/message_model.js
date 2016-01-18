@@ -24,7 +24,7 @@ class MessageModel extends MessageBase {
      */
     constructor(payload) {
         super();
-        
+
         _.extend(
             this,
             this._initMessageModel(payload)
@@ -58,7 +58,7 @@ class MessageModel extends MessageBase {
      * @return {Date}
      */
     getDateObject(stringDate) {
-        let pattern = /^([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)$/; // 01-01-2016 01:01
+        let pattern = /^([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)$/; // 16-01-2016 01:16
         let date = stringDate.match(pattern);
         date.shift(); // removes first match
 
