@@ -4,20 +4,6 @@ const _ = require('lodash'),
       MessageBase = require('./message_base'),
       TYPES = require('./types');
 
-/**
-* Base message structure, matches added on-top of this base.
-*
-* @var {Object}
-*/
-const DEFAULT_MESSAGE = {
-    type: TYPES.MESSAGE_PRIVATE, // defaults to PM
-    id: null,
-    from: null,
-    to: null,
-    date: null,
-    text: null
-};
-
 class MessageModel extends MessageBase {
     /**
      * Initialize Message from payload data into the current this.
@@ -33,6 +19,23 @@ class MessageModel extends MessageBase {
 
 
     /**
+    * Getter for Base message structure, matches added on-top of this base.
+    *
+    * @return {Object}
+    */
+    getDefaultMessage() {
+        return {
+            type: TYPES.MESSAGE_PRIVATE, // defaults to PM
+            id: null,
+            from: null,
+            to: null,
+            date: null,
+            text: null
+        };
+    }
+
+
+    /**
      * Message formatter.
      * Formats the MESSAGE by overriding the default values found at DEFAULT_MESSAGE.
      *
@@ -42,7 +45,7 @@ class MessageModel extends MessageBase {
     _initMessageModel(payload) {
         if (!_.isArray(payload)) return null; // if not an array.. return.
 
-        let message = DEFAULT_MESSAGE;
+        let message = this.getDefaultMessage();
 
         message.from = payload.shift();
         message.text = payload.pop();

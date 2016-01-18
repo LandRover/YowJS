@@ -1,6 +1,6 @@
 'use strict';
 
-const PayloadBase = require('./payload_base'),
+let PayloadBase = require('./payload_base'),
       MessageModel = require('../message/message_model');
 
 

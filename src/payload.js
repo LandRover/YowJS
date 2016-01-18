@@ -19,6 +19,7 @@ class Payload {
      */
     constructor(payload) {
         this.payload = payload;
+        this.message = null;
     }
 
 
@@ -28,14 +29,25 @@ class Payload {
      * @return {Message} object, matched by the payload regex settings
      */
     getMessage() {
-        var payload = this.findPayloadByType();
+        if (null !== this.message)
+            return this.message; // return cached response.
 
-        if (null !== payload)
-            return payload.getMessage();
+        let payload = this.findPayloadByType(),
+            message = null;
 
-        return new MessageBase({
-            payload: this.payload
-        });
+
+
+        if (null !== payload) {
+            message = payload.getMessage();
+        } else {
+            message = new MessageBase({
+                payload: this.payload
+            });
+        }
+
+        this.message = message;
+
+        return message;
     }
 
 

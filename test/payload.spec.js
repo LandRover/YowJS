@@ -9,12 +9,12 @@ let chai = require('chai'),
 
 let MSG_POOL = {
     INVALID_FORMAT: 'it is invalid message format',
-    MESSAGE_GROUP_TEXT: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t Hi there',
+    MESSAGE_GROUP_TEXT: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t Hi group!',
     MESSAGE_GROUP_AUDIO: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t [Media Type:audio, Size:8000, URL:https://mmi000.whatsapp.net/d/RANDOM-STUFF/ABCD5435345345435435345.aac]',
     MESSAGE_GROUP_IMAGE: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t [Media Type:image, Size:9000, URL:https://mmi000.whatsapp.net/d/RANDOM-STUFF/ABCD5435345345435435345.jpg]',
     MESSAGE_GROUP_LOCATION: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t [Media Type: location]',
     MESSAGE_GROUP_CONTACT: '[0987654321000/0123456789000-1234567890@g.us(16-01-2016 00:59)]:[ABCDEF1234567890000]\t [Media Type: vcard]',
-    MESSAGE_PRIVATE_TEXT: '[0987654321000@s.whatsapp.net(16-01-2016 00:59)]:[ABCDEF1234567890000]\t Hi',
+    MESSAGE_PRIVATE_TEXT: '[0987654321000@s.whatsapp.net(16-01-2016 00:59)]:[ABCDEF1234567890000]\t Hi you! its PM.',
     MESSAGE_CONFIRMATION: 'Message ABCDEF1234567890ABC: Sent delivered receipt and Read\n[connected]:',
     HEARTBEAT: 'Iq:\nID: 99\nType: result\nfrom: 000000000000@s.whatsapp.net'
 };
@@ -26,5 +26,16 @@ describe('Payload', () => {
             messageType = payload.getMessage().getType();
 
         expect(messageType).to.equal(TYPES.MESSAGE_GROUP);
+        expect(messageType).to.not.equal(TYPES.UNKNOWN);
     });
+
+
+    it('Should be a Private Message', () => {
+        let payload = new Payload(MSG_POOL.MESSAGE_PRIVATE_TEXT),
+            messageType = payload.getMessage().getType();
+
+        expect(messageType).to.equal(TYPES.MESSAGE_PRIVATE);
+        expect(messageType).to.not.equal(TYPES.UNKNOWN);
+    });
+
 });
