@@ -4,7 +4,7 @@ const Logger = require('winston');
 Logger.level = 'silly';
 
 Logger.add(Logger.transports.File, {
-    filename: "access.log"
+    filename: "yowjs.log"
 });
 
 Logger.remove(Logger.transports.Console);
