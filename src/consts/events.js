@@ -1,5 +1,5 @@
 module.exports = {
-    STATE_CHANGE: Symbol(),
     ON_MESSAGE: Symbol(),
-    YOWSUP_LINK_DEAD: Symbol()
+    STATE_CHANGE: Symbol(),
+    LINK_DEAD: Symbol()
 };
