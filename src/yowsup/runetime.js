@@ -2,23 +2,23 @@
 
 const _ = require('lodash'),
     API = require('./api'),
-    Logger = require('../logger'),
-    spawn = require('child_process').spawn,
-    EventEmitter = require('events').EventEmitter,
-    onError = () => {},
-    emitter = new EventEmitter().on('error', onError),
-    EVENTS_LIST = require('../consts/events_list');
+    Payload = require('../payload'),
+    Spawn = require('child_process').spawn,
+
+    EVENTS = require('../consts/events'),
+    RESPONSES = require('../consts/responses'),
+    STATES = require('../consts/states');
 
 
 /**
  *
  */
-class YowsupRuntime {
+class Runtime {
     /**
      *
      */
-    constructor(Logger, Emitter) {
-        Logger.log('debug', '[YowsupRuntime::Constructor] Initialized Constructor');
+    constructor(Logger, Emitter, options = {}) {
+        Logger.log('debug', '[Runtime::Constructor] Initialized Constructor');
 
         _.extend(this, {
             cmd: null,
@@ -35,8 +35,10 @@ class YowsupRuntime {
 
             Logger: Logger,
             Emitter: Emitter
-        });
+        },
+        options);
 
+        this.subscribe();
     }
 
 
@@ -44,7 +46,7 @@ class YowsupRuntime {
      *
      */
     setCredentials(countryCode, phoneNumber, password) {
-        Logger.log('debug', '[YowsupRuntime::setCredentials] Setter for Credentials', arguments);
+        this.Logger.log('debug', '[Runtime::setCredentials] Setter for Credentials', arguments);
 
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
@@ -58,7 +60,7 @@ class YowsupRuntime {
      *
      */
     setCliPath(cliPath) {
-        Logger.log('debug', '[YowsupRuntime::setCliPath] Setter for Yowsup2-cli executable', arguments);
+        this.Logger.log('debug', '[Runtime::setCliPath] Setter for Yowsup2-cli executable', arguments);
 
         this.cliPath = cliPath;
 
@@ -110,13 +112,14 @@ class YowsupRuntime {
         let args = this.getCMDWithArgs(),
             options = {cwd: __dirname};
 
-        Logger.log('info', '[YowsupRuntime::run] Executing Python Yowsup2-cli deamon', args, options);
+        this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args, options);
 
-        this.cmd = spawn('python', args, options);
+        this.cmd = Spawn('python', args, options);
         this.cmd.stdin.setEncoding('utf-8');
 
-        this.cmd.stdout.on('data', message => {
-            emitter.emit(EVENTS_LIST.ON_YOWSUP_RECEIVE, message.toString().trim());
+        this.cmd.stdout.on('data', payload => {
+            payload = payload.toString().trim();
+            this.onReceive(payload);
         });
 
         this.cmd.on('close', () => {
@@ -127,23 +130,64 @@ class YowsupRuntime {
     }
 
 
-    /**
-     *
-     */
-    send(args) {
-        if (_.isArray(args))
-            args = args.join(' ');
+    onReceive(payload) {
+        this.Logger.log('silly', '[Runtime::onReceive::entry] Raw Message arrived', payload);
 
-        let command = [
-                this.cmdPrefix,
-                args,
-                '\n'
-            ].join('');
+        switch(payload) {
+            case RESPONSES.CONNECTED:
+                break;
 
-        Logger.log('info', '[YowsupRuntime::send] Sending API call to service', command);
+            case RESPONSES.OFFLINE:
+                this.API.login(); // sends login command
+                break;
 
-        this.getCMD().stdin.write(command);
+            case RESPONSES.AUTH_ERROR:
+                this.Emitter.emit(EVENTS.STATE_CHANGE, STATES.AUTH_ERROR);
+                break;
+
+            case RESPONSES.AUTH_OK:
+                this.Emitter.emit(EVENTS.STATE_CHANGE, STATES.ONLINE);
+                break;
+
+            default:
+                let payloadMessage = new Payload(payload),
+                    msg = payloadMessage.getMessage();
+
+                this.Logger.log('debug', '[Runtime::onReceive::default] Raw Message arrived', payload, payloadMessage, msg);
+
+                this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
+        }
+
+
+    }
+
+
+    onStateChange(state) {
+        switch(state) {
+            case STATES.ONLINE:
+                this.Logger.log('warn', '[Runtime::onStateChange] [*] ONLINE');
+                break;
+
+            case STATES.OFFLINE:
+                this.Logger.log('warn', '[Runtime::onStateChange] [*] OFFLINE');
+                break;
+
+            case STATES.AUTH_ERROR:
+                this.Logger.log('error', '[Runtime::onStateChange] [*] AUTH_ERROR', this);
+                break;
+        }
+    }
+
+
+    subscribe() {
+        this.Emitter.on(EVENTS.ON_MESSAGE, message => {
+            console.log(['message', message]);
+        });
+
+        this.Emitter.on(EVENTS.STATE_CHANGE, state => {
+            this.onStateChange(state);
+        });
     }
 }
 
-module.exports = YowsupRuntime;
+module.exports = Runtime;
