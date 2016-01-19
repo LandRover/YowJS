@@ -5,10 +5,10 @@ const _ = require('lodash'),
     Payload = require('../payload'),
     Spawn = require('child_process').spawn,
 
+    TYPES = require('../message/types'),
     EVENTS = require('../consts/events'),
     RESPONSES = require('../consts/responses'),
     STATES = require('../consts/states');
-
 
 /**
  *
@@ -17,11 +17,12 @@ class Runtime {
     /**
      *
      */
-    constructor(Logger, Emitter, options = {}) {
-        Logger.log('debug', '[Runtime::Constructor] Initialized Constructor');
+    constructor(Logger, Emitter, options) {
+        Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
 
         _.extend(this, {
-            cmd: null,
+            API: null,
+            CMD: null,
 
             // cli cmd path
             cliPath: '/usr/local/bin/yowsup-cli',
@@ -31,13 +32,9 @@ class Runtime {
             phoneNumber: null,
             password: null,
 
-            API: new API(this.cmd, Logger),
-
             Logger: Logger,
             Emitter: Emitter
         }, options);
-
-        this.subscribe();
     }
 
 
@@ -71,9 +68,16 @@ class Runtime {
      *
      */
     getCMD() {
-        return this.cmd;
+        return this.CMD;
     }
 
+
+    getAPI() {
+        if (null === this.API)
+            this.API = new API(this.getCMD(), this.Logger);
+
+        return this.API;
+    }
 
     /**
      *
@@ -111,21 +115,26 @@ class Runtime {
         let args = this.getCMDWithArgs(),
             options = {cwd: __dirname};
 
-        this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args, options);
+        this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args.join(' '), options);
 
-        this.cmd = Spawn('python', args, options);
-        this.cmd.stdin.setEncoding('utf-8');
+        this.CMD = Spawn('python', args, options);
+        this.CMD.stdin.setEncoding('utf-8');
 
-        this.cmd.stdout.on('data', payload => {
+        this.CMD.stdout.on('data', payload => {
             payload = payload.toString().trim();
             this.onReceive(payload);
         });
 
-        this.cmd.on('close', () => {
+        this.CMD.on('close', () => {
             this.onClose();
         });
 
         return this;
+    }
+
+
+    onClose() {
+        this.Logger.log('debug', '[Runtime::onClose] Close of the Runtime is called.');
     }
 
 
@@ -137,27 +146,29 @@ class Runtime {
                 break;
 
             case RESPONSES.OFFLINE:
-                this.API.login(); // sends login command
+            case RESPONSES.OFFLINE_EXTENDED:
+                this.getAPI().login(); // login
                 break;
 
             case RESPONSES.AUTH_ERROR:
-                this.Emitter.emit(EVENTS.STATE_CHANGE, STATES.AUTH_ERROR);
+                this.onStateChange(STATES.AUTH_ERROR);
                 break;
 
             case RESPONSES.AUTH_OK:
-                this.Emitter.emit(EVENTS.STATE_CHANGE, STATES.ONLINE);
+                this.onStateChange(STATES.ONLINE);
                 break;
 
             default:
                 let payloadMessage = new Payload(payload),
                     msg = payloadMessage.getMessage();
 
-                this.Logger.log('debug', '[Runtime::onReceive::default] Raw Message arrived', payload, payloadMessage, msg);
+                this.Logger.log('debug', '[Runtime::onReceive::default] Raw Message arrived', [payload, payloadMessage, msg]);
 
-                this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
+                if (TYPES.UNKNOWN !== msg.getType())
+                    this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
+
+                this.Emitter.emit(EVENTS.ON_MESSAGE_ANY, msg);
         }
-
-
     }
 
 
@@ -175,17 +186,8 @@ class Runtime {
                 this.Logger.log('error', '[Runtime::onStateChange] [*] AUTH_ERROR', this);
                 break;
         }
-    }
 
-
-    subscribe() {
-        this.Emitter.on(EVENTS.ON_MESSAGE, message => {
-            console.log(['message', message]);
-        });
-
-        this.Emitter.on(EVENTS.STATE_CHANGE, state => {
-            this.onStateChange(state);
-        });
+        this.Emitter.emit(EVENTS.STATE_CHANGE, state);
     }
 }
 

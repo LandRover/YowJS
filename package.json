@@ -31,7 +31,7 @@
   "config": {
     "blanket": {
       "pattern": [
-        "src/yowjs.js"
+        "src"
       ],
       "data-cover-never": "node_modules"
     }

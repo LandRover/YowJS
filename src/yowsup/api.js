@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 
+
 /**
  *
  */
@@ -10,7 +11,7 @@ class API {
      *
      */
     constructor(cmd, Logger, Emitter) {
-        Logger.log('debug', '[API::Constructor] Initialized Constructor');
+        Logger.log('silly', '[API::Constructor] Initialized Constructor');
 
         _.extend(this, {
             cmd: cmd,
@@ -24,27 +25,27 @@ class API {
     /**
      *
      */
-    say(to, text) {
+    say(to, text, callback) {
         this._send([
             'message',
             'send',
             to,
             text
-        ]);
+        ], callback);
     }
 
 
     /**
      *
      */
-    image(to, path, caption) {
+    image(to, path, caption, callback) {
         return this._send([
             'image',
             'send',
             to,
             path,
             caption
-        ]);
+        ], callback);
     }
 
 
@@ -52,36 +53,40 @@ class API {
      *
      */
     login() {
-        return this._send('L');
+        this._send('L');
+
+        return setTimeout(() => {
+            this.online(); // become online
+        }, 0);
     }
 
 
     /**
      *
      */
-    online() {
+    online(callback) {
         return this._send([
             'presence',
             'available'
-        ]);
+        ], callback);
     }
 
 
     /**
      *
      */
-    offline() {
+    offline(callback) {
         return this._send([
             'presence',
             'unavailable'
-        ]);
+        ], callback);
     }
 
 
     /**
      *
      */
-    _send(args) {
+    _send(args, callback) {
         if (_.isArray(args))
             args = args.join(' ');
 
@@ -92,8 +97,13 @@ class API {
             ].join('');
 
         this.Logger.log('info', '[YowsupRuntime::send] Sending API call to service', command);
-
         this.cmd.stdin.write(command);
+
+        if ('function' === typeof(callback)) {
+            setTimeout(() => {
+                callback()
+            });
+        }
     }
 }
 

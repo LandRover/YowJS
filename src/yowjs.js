@@ -1,23 +1,29 @@
 'use strict';
 
-let _ = require('lodash'),
-    Logger = require('utils/logger'),
-    Runtime = require('yowsup/runtime'),
-    EventEmitter = require('events').EventEmitter,
-    Emitter = new EventEmitter().on('error', () => {
-        Logger.log('error', '[YowJS::EventEmitter] Event fired error', arguments);
-    }),
+const _ = require('lodash'),
+      Logger = require('./utils/logger'),
+      Runtime = require('./yowsup/runtime'),
+      EventEmitter = require('events').EventEmitter,
+      Emitter = new EventEmitter().on('error', () => {
+          Logger.log('error', '[YowJS::EventEmitter] Event fired error', arguments);
+      }),
 
-    EVENTS = require('../consts/events'),
-    RESPONSES = require('../consts/responses'),
-    STATES = require('../consts/states');
+      EVENTS = require('./consts/events'),
+      RESPONSES = require('./consts/responses'),
+      STATES = require('./consts/states');
 
-class YowJS  {
+
+/**
+ *
+ */
+class YowJS {
     /**
      *
      */
-    constructor(options = {}) {
+    constructor(options) {
         _.extend(this, {
+            Logger: Logger,
+            Emitter: Emitter,
             Runtime: new Runtime(Logger, Emitter)
         }, options);
     }
@@ -37,16 +43,16 @@ class YowJS  {
      *
      */
     on(eventName, callback) {
-        let event = EVENTS[eventName];
+        let e = EVENTS[eventName];
 
-        if ('undefined' === event) {
-            this.Logger.log('error', '[YowJS::on] Event not found', event);
+        if ('undefined' === e) {
+            this.Logger.log('error', '[YowJS::on] Event not found', eventName);
 
             return false;
         }
 
-        Emitter.on(event, callback);
-        this.Logger.log('silly', '[YowJS::on] Event fired', event, callback);
+        this.Emitter.on(e, callback);
+        this.Logger.log('silly', '[YowJS::on] Event subscribed', eventName);
 
         return this;
     }

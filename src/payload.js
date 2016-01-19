@@ -1,11 +1,11 @@
 'use strict';
 
-
 const payloadTypes = [
           require('./payload/payload_private'),
           require('./payload/payload_group')
       ],
       MessageBase = require('./message/message_base');
+
 
 /**
  * Playload.
