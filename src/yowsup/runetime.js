@@ -31,12 +31,11 @@ class Runtime {
             phoneNumber: null,
             password: null,
 
-            api: new API(this.cmd, Logger),
+            API: new API(this.cmd, Logger),
 
             Logger: Logger,
             Emitter: Emitter
-        },
-        options);
+        }, options);
 
         this.subscribe();
     }
