@@ -1,11 +1,11 @@
 'use strict';
 
 const _ = require('lodash'),
-      LoggerUtil = require('./utils/logger'),
+      LoggerDefault = require('./utils/logger'),
       Runtime = require('./yowsup/runtime'),
       EventEmitter = require('events').EventEmitter,
-      Emitter = new EventEmitter().on('error', () => {
-          LoggerUtil.log('error', '[YowJS::EventEmitter] Event fired error', arguments);
+      EmitterDefault = new EventEmitter().on('error', () => {
+          LoggerDefault.log('error', '[YowJS::EventEmitter] Event fired error', arguments);
       }),
 
       EVENTS = require('./consts/events'),
@@ -20,14 +20,12 @@ class YowJS {
     /**
      *
      */
-    constructor(Logger, options) {
-        Logger = Logger || LoggerUtil; // bind default logger if not found external one.
-
+    constructor(Logger, Emitter) {
         _.extend(this, {
-            Logger: Logger,
-            Emitter: Emitter,
+            Logger: Logger || LoggerDefault, // bind default logger if not found external one.
+            Emitter: Emitter || EmitterDefault, // bind default emitter
             Runtime: new Runtime(Logger, Emitter)
-        }, options);
+        });
     }
 
 
