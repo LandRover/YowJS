@@ -2,7 +2,7 @@
 
 const _ = require('lodash'),
       LoggerDefault = require('./utils/logger'),
-      Runtime = require('./yowsup/runtime'),
+      RuntimeYowsup = require('./yowsup/runtime'),
       EventEmitter = require('events').EventEmitter,
       EmitterDefault = new EventEmitter().on('error', () => {
           LoggerDefault.log('error', '[YowJS::EventEmitter] Event fired error', arguments);
@@ -20,10 +20,14 @@ class YowJS {
     /**
      *
      */
-    constructor(Logger, Emitter) {
+    constructor(Logger, Emitter, Runtime) {
+        Emitter = Emitter || EmitterDefault; // bind default emitter
+        Logger = Logger || LoggerDefault; // bind default logger if not found external one.
+        Runtime = Runtime || RuntimeYowsup; // bind fake Runtime object, used for testing.
+
         _.extend(this, {
-            Logger: Logger || LoggerDefault, // bind default logger if not found external one.
-            Emitter: Emitter || EmitterDefault, // bind default emitter
+            Logger: Logger,
+            Emitter: Emitter,
             Runtime: new Runtime(Logger, Emitter)
         });
     }
@@ -64,7 +68,9 @@ class YowJS {
     connect() {
         this.Logger.log('debug', '[YowJS::connect] Running runtime Python wrapper...');
 
-        return this.Runtime.run();
+        this.Runtime.run();
+
+        return this;
     }
 }
 
