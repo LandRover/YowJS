@@ -74,6 +74,4 @@ describe('YowJS', () => {
 
         expect(onEvent).to.equal(yowjs); //verify it's chainable
     });
-
-
 });

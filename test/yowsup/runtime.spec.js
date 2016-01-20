@@ -12,11 +12,30 @@ chai.use(sinonChai);
 
 
 describe('YowJS::Runtime', () => {
-    let runtime,
+    let API,
+        Payload,
+        Spawn,
+        runtime,
         Logger,
         Emitter;
 
+    let countryCode = 1,
+        phoneNumber = 9876543210000,
+        password = 'this.is.a.base64.password=';
+
     beforeEach(() => {
+        API = sinon.spy();
+        API.prototype = {
+        };
+
+        Payload = function() {};
+        Payload.prototype = {
+        };
+
+        Spawn = function() {};
+        Spawn.prototype = {
+        };
+
         Logger = {
             log: sinon.spy()
         };
@@ -26,15 +45,11 @@ describe('YowJS::Runtime', () => {
             emit: sinon.spy()
         };
 
-        runtime = new Runtime(Logger, Emitter);
+        runtime = new Runtime(Logger, Emitter, API, Payload, Spawn);
     });
 
 
     it('Should store user credentials on `this`', () => {
-        let countryCode = 1,
-            phoneNumber = 9876543210000,
-            password = 'this.is.a.base64.password=';
-
         let setCredentials = runtime.setCredentials(countryCode, phoneNumber, password);
 
         expect(runtime.countryCode).to.equal(countryCode);
@@ -55,5 +70,30 @@ describe('YowJS::Runtime', () => {
         expect(setCredentials).to.equal(runtime); //verify it's chainable
     });
 
+
+    it('Should be instanced only once and return API instance', () => {
+        let APIInstance = runtime.getAPI(),
+            APIInstance2 = runtime.getAPI();
+
+        runtime.API.should.have.been.calledOnce;
+
+        expect(APIInstance).to.be.instanceof(API);
+    });
+
+
+    it('Should be valid credentials format', () => {
+        runtime.setCredentials(countryCode, phoneNumber, password);
+        let credentials = runtime.getCredentials();
+
+        expect(credentials).to.be.equal(countryCode.toString() + phoneNumber.toString() +':'+ password.toString());
+        expect(credentials).to.be.a('string');
+    });
+
+
+    it('Should be able to get CMDArgs as array', () => {
+        let cmdArgs = runtime.getCMDWithArgs();
+
+        expect(cmdArgs).to.be.a('array');
+    });
 
 });
