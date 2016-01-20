@@ -157,7 +157,6 @@ class Runtime {
             options = {cwd: __dirname};
 
         this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args.join(' '), options);
-
         this.cmd = this.Spawn('python', args, options);
         this.cmd.stdin.setEncoding('utf-8');
 

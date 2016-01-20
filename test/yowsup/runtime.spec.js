@@ -32,9 +32,20 @@ describe('YowJS::Runtime', () => {
         Payload.prototype = {
         };
 
-        Spawn = function() {};
-        Spawn.prototype = {
+        Spawn = function() {
+            return {
+                stdin: {
+                    setEncoding: sinon.spy()
+                },
+
+                stdout: {
+                    on: sinon.spy()
+                },
+
+                on: sinon.spy()
+            };
         };
+
 
         Logger = {
             log: sinon.spy()
@@ -96,4 +107,21 @@ describe('YowJS::Runtime', () => {
         expect(cmdArgs).to.be.a('array');
     });
 
+
+    it('Should run the process and bind to STDOUT', () => {
+        let run = runtime.run();
+
+        expect(runtime.getCMD().stdin.setEncoding.args[0][0]).to.be.a('string');
+
+        runtime.getCMD().stdin.setEncoding.should.have.been.calledOnce;
+        runtime.getCMD().stdout.on.should.have.been.called;
+        runtime.getCMD().on.should.have.been.called;
+
+        expect(run).to.equal(runtime); //verify it's chainable
+    });
+
+
+    it('Should receive input from the API and turn them into formatted messages', () => {
+
+    });
 });
