@@ -1,10 +1,12 @@
 'use strict';
 
-let chai = require('chai'),
+let _ = require('lodash'),
+    chai = require('chai'),
     expect = chai.expect,
     sinon = require('sinon'),
     sinonChai = require('sinon-chai'),
-    Runtime = require('./../../src/yowsup/runtime.js');
+    Runtime = require('./../../src/yowsup/runtime'),
+    RESPONSES = require('./../../src/consts/responses');
 
 
 chai.should();
@@ -25,12 +27,10 @@ describe('YowJS::Runtime', () => {
 
     beforeEach(() => {
         API = sinon.spy();
-        API.prototype = {
-        };
+        API.prototype = {};
 
         Payload = function() {};
-        Payload.prototype = {
-        };
+        Payload.prototype = {};
 
         Spawn = function() {
             return {
@@ -45,7 +45,6 @@ describe('YowJS::Runtime', () => {
                 on: sinon.spy()
             };
         };
-
 
         Logger = {
             log: sinon.spy()
@@ -120,8 +119,47 @@ describe('YowJS::Runtime', () => {
         expect(run).to.equal(runtime); //verify it's chainable
     });
 
+});
 
-    it('Should receive input from the API and turn them into formatted messages', () => {
+describe('YowJS::Runtime::onReceive', () => {
+    let runtime;
 
+    beforeEach(() => {
+        let API = sinon.spy();
+        API.prototype = {
+            login: sinon.spy()
+        };
+
+        let Payload = function() {};
+        Payload.prototype = {
+        };
+
+        let Logger = {
+            log: sinon.spy()
+        };
+
+        let Emitter = {
+            on: sinon.spy(),
+            emit: sinon.spy()
+        };
+
+        runtime = new Runtime(Logger, Emitter, API, Payload);
+    });
+
+
+    it('Should execute login on OFFLINE message', () => {
+        let offline = runtime.onReceive(RESPONSES.OFFLINE);
+        runtime.getAPI().login.should.have.been.called;
+
+        let offlineExtended = runtime.onReceive(RESPONSES.OFFLINE_EXTENDED);
+        runtime.getAPI().login.should.have.been.called;
+    });
+
+
+    it('Should execute NOTHING on CONNECTED message', () => {
+        let connected = runtime.onReceive(RESPONSES.CONNECTED);
+
+        expect(connected).to.be.undefined;
+        runtime.Emitter.emit.should.not.have.been.called;
     });
 });
