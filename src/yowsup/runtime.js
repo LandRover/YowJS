@@ -161,7 +161,7 @@ class Runtime {
                 break;
 
             default:
-                let payloadMessage = new Payload(payload),
+                let payloadMessage = new this.Payload(payload),
                     msg = payloadMessage.getMessage();
 
                 this.Logger.log('debug', '[Runtime::onReceive::default] Raw Message arrived', [payload, payloadMessage, msg]);
