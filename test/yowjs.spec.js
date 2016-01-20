@@ -6,6 +6,7 @@ let chai = require('chai'),
     sinonChai = require('sinon-chai'),
     YowJS = require('./../src/yowjs.js');
 
+
 chai.should();
 chai.use(sinonChai);
 
@@ -24,13 +25,12 @@ describe('YowJS', () => {
         };
 
         Logger = {
-            log: () => {
-            }
+            log: sinon.spy()
         };
 
         Emitter = {
-            emit: () => {
-            }
+            on: sinon.spy(),
+            emit: sinon.spy()
         };
 
         yowjs = new YowJS(Logger, Emitter, Runtime);
@@ -51,7 +51,7 @@ describe('YowJS', () => {
         let init = yowjs.initialize(countryCode, phoneNumber, password);
 
         yowjs.Runtime.setCredentials.should.have.been.calledOnce;
-        yowjs.Runtime.setCredentials.should.have.been.calledWith(countryCode, phoneNumber, password);
+        yowjs.Runtime.setCredentials.should.always.have.been.calledWith(countryCode, phoneNumber, password);
 
         expect(init).to.equal(yowjs); //verify it's chainable
     });
@@ -64,4 +64,16 @@ describe('YowJS', () => {
 
         expect(connect).to.equal(yowjs); //verify it's chainable
     });
+
+
+    it('Should subscribe to internal events', () => {
+        let eventName = 'ON_MESSAGE',
+            onEvent = yowjs.on(eventName, sinon.spy());
+
+        yowjs.Emitter.on.should.have.been.called;
+
+        expect(onEvent).to.equal(yowjs); //verify it's chainable
+    });
+
+
 });
