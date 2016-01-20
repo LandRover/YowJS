@@ -15,9 +15,10 @@ const _ = require('lodash'),
  */
 class Runtime {
     /**
-     *
+     * Runtime constructor object.
+     * Contains defaul values and
      */
-    constructor(Logger, Emitter, TestAPI, TestPayload) {
+    constructor(Logger, Emitter, TestAPI, TestPayload, TestSpawn) {
         Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
 
         _.extend(this, {
@@ -34,6 +35,7 @@ class Runtime {
 
             Logger: Logger,
             Emitter: Emitter,
+            Spawn: TestSpawn || Spawn, // bind fake Spawn object, used for testing.
             API: TestAPI || API, // bind fake API object, used for testing.
             Payload: TestPayload || Payload // bind fake Payload object, used for testing.
         });
@@ -119,7 +121,7 @@ class Runtime {
 
         this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args.join(' '), options);
 
-        this.cmd = Spawn('python', args, options);
+        this.cmd = this.Spawn('python', args, options);
         this.cmd.stdin.setEncoding('utf-8');
 
         this.cmd.stdout.on('data', payload => {
