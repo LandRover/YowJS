@@ -17,7 +17,7 @@ class Runtime {
     /**
      *
      */
-    constructor(Logger, Emitter, options) {
+    constructor(Logger, Emitter) {
         Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
 
         _.extend(this, {
@@ -34,7 +34,7 @@ class Runtime {
 
             Logger: Logger,
             Emitter: Emitter
-        }, options);
+        });
     }
 
 
