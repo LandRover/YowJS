@@ -11,12 +11,25 @@ const _ = require('lodash'),
     STATES = require('../consts/states');
 
 /**
+ * Runtime is the middleware to the Python and used as the abstraction that communicates over STDIN && STDOUT.
  *
+ * All communication on arriving/sent data to the middleware is done via event Emitter object.
+ *
+ * Object is also cover by tests and most of the constructor params are exposing the option to override all of them, in regular
+ * case only Logger and Emitter are required to be passed in to initialized.
  */
 class Runtime {
     /**
      * Runtime constructor object.
-     * Contains defaul values and
+     * Contains default values for initializing the runtime process.
+     *
+     * Most of the params are exposed for the soul purpose of testing.
+     *
+     * @param {Object} Logger - Instance of the logger used to log all the needed info.
+     * @param {Object} Emitter - Instance of the event manager, passed exteranlly to allow singularity and testing.
+     * @param {Object} TestAPI - Instance of an API object, exposed for testing only. In regular case will take API from CONSTS
+     * @param {Object} TestPayload - Instance of an Payload object, exposed for testing only. In regular case will take Payload from CONSTS
+     * @param {Object} TestSpawn - Instance of an Spawn object, exposed for testing only. In regular case will take Spawn from CONSTS
      */
     constructor(Logger, Emitter, TestAPI, TestPayload, TestSpawn) {
         Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
@@ -25,8 +38,7 @@ class Runtime {
             api: null,
             cmd: null,
 
-            // cli cmd path
-            cliPath: '/usr/local/bin/yowsup-cli',
+            cliPath: '/usr/local/bin/yowsup-cli', // default yowsup cli path
 
             // credentials
             countryCode: null,
@@ -43,7 +55,11 @@ class Runtime {
 
 
     /**
+     * Stores the Yowsup required information to perform a login.
      *
+     * @param {Number} countryCode - Country code of the sim, 3 chars max, not padded. Example: 44
+     * @param {Number} phoneNumber - Phone number of the sim, deducting the country code and the leading 0. Example: 1234567890
+     * @param {String} password - Expects base64 string to login with. Not verifition is performed here on the value, only passing.
      */
     setCredentials(countryCode, phoneNumber, password) {
         this.Logger.log('debug', '[Runtime::setCredentials] Setter for Credentials', arguments);
@@ -57,7 +73,9 @@ class Runtime {
 
 
     /**
+     * Setter for the Yowsup CLI path, needs to be set if custom installed in diffrent place the the
      *
+     * @param {String} cliPath - Custom path to yowsup-cli
      */
     setCliPath(cliPath) {
         this.Logger.log('debug', '[Runtime::setCliPath] Setter for Yowsup2-cli executable', arguments);
@@ -69,13 +87,21 @@ class Runtime {
 
 
     /**
+     * Getter for the cmd, used to get access to STD IN/OUT
      *
+     * @return {Object} Spawn referance to the process.
      */
     getCMD() {
         return this.cmd;
     }
 
 
+    /**
+     * Getter for the API instance.
+     * Stores a cached API, prevents dual invoking.
+     *
+     * @return {Object} API Instance
+     */
     getAPI() {
         if (null === this.api)
             this.api = new this.API(this.getCMD(), this.Logger);
@@ -83,8 +109,12 @@ class Runtime {
         return this.api;
     }
 
+
     /**
+     * Getter for the user credentials, formats data.
+     * Login is expected to be in CCPHONE:PWD. Example: 441234567890:RAMDONPASSWORDHERE
      *
+     * @return {String} of the LOGIN cmd that Yowsup expects
      */
     getCredentials() {
         return [
@@ -97,23 +127,30 @@ class Runtime {
 
 
     /**
+     * Getter for the Yowsup-cli arguments that needs to be passed in
      *
+     * @return {String} of arguments that execute the process of the Python and Yowsup-cli
      */
     getCMDWithArgs() {
         return [
-            '-u',
-            this.cliPath,
+            '-u', // Python flag for unbuffered binary stdout and stderr
+            this.cliPath, // path to yowsup-cli python file
             'demos',
-            '-d',
-            '-y',
-            '-l',
-            this.getCredentials()
+            '-d', // Show debug messages
+            '-y', // Start the Yowsup command line client
+            '-l', // --login
+            this.getCredentials() // phone:b64password
         ];
     }
 
 
     /**
+     * Run forest run.
      *
+     * Executes the process of Yowsup, with all the params baked in, calls a method, onReceive, on
+     * any incoming message on STDOUT.
+     *
+     * @return {Object} self, for chaining.
      */
     run() {
         let args = this.getCMDWithArgs(),
@@ -137,11 +174,27 @@ class Runtime {
     }
 
 
+    /**
+     * onClose event callback when process is dead / closed.
+     */
     onClose() {
         this.Logger.log('debug', '[Runtime::onClose] Close of the Runtime is called.');
     }
 
 
+    /**
+     * onReceive is the main entry for all incoming messages from the process.
+     * It executed when something is written via the STDOUT and coverts it to a message
+     *
+     * Events that may come out, if matched properly:
+     *   1. ON_MESSAGE - fired only when a message type is detected and message type is NOT TYPES.UNKNOWN.
+     *   2. ON_MESSAGE_ANY - fired always, even if match is not found will broadcast this event of any type of message.
+     *
+     * Most of communicated should be via ON_MESSAGE, which are the proper types that are mainly used.
+     * Events sent over ON_MESSAGE_ANY are mostly used for debugged or binding to an un-supported message type.
+     *
+     * @param {String} payload - incoming string from STDOUT of the process it binded to.
+     */
     onReceive(payload) {
         this.Logger.log('silly', '[Runtime::onReceive::entry] Raw Message arrived', payload);
 
@@ -176,6 +229,13 @@ class Runtime {
     }
 
 
+    /**
+     * Executed when the user state is changed, based on a list of agreed states at STATES
+     * 3 main types are Online, Offline and Auth error which the events are broadcast accordingly
+     * allowing the user of the API to decide on the approprite action.
+     *
+     * @param {Symbol} state of the changed state to.
+     */
     onStateChange(state) {
         switch(state) {
             case STATES.ONLINE:
