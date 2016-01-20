@@ -6,7 +6,8 @@ let _ = require('lodash'),
     sinon = require('sinon'),
     sinonChai = require('sinon-chai'),
     Runtime = require('./../../src/yowsup/runtime'),
-    RESPONSES = require('./../../src/consts/responses');
+    RESPONSES = require('./../../src/consts/responses'),
+    STATES = require('./../../src/consts/states');
 
 
 chai.should();
@@ -147,6 +148,14 @@ describe('YowJS::Runtime::onReceive', () => {
     });
 
 
+    it('Should execute NOTHING on CONNECTED message', () => {
+        let connected = runtime.onReceive(RESPONSES.CONNECTED);
+
+        expect(connected).to.be.undefined;
+        runtime.Emitter.emit.should.not.have.been.called;
+    });
+
+
     it('Should execute login on OFFLINE message', () => {
         let offline = runtime.onReceive(RESPONSES.OFFLINE);
         runtime.getAPI().login.should.have.been.called;
@@ -156,10 +165,25 @@ describe('YowJS::Runtime::onReceive', () => {
     });
 
 
-    it('Should execute NOTHING on CONNECTED message', () => {
-        let connected = runtime.onReceive(RESPONSES.CONNECTED);
+    it('Should execute stateChange on AUTH_ERROR message with AUTH_ERROR', () => {
+        runtime.onStateChange = sinon.spy();
 
-        expect(connected).to.be.undefined;
-        runtime.Emitter.emit.should.not.have.been.called;
+        let authError = runtime.onReceive(RESPONSES.AUTH_ERROR);
+
+        runtime.onStateChange.should.have.been.called;
+        runtime.onStateChange.should.always.have.been.calledWith(STATES.AUTH_ERROR);
     });
+
+
+    it('Should execute stateChange on AUTH_OK with ONLINE flag', () => {
+        runtime.onStateChange = sinon.spy();
+
+        let authError = runtime.onReceive(RESPONSES.AUTH_OK);
+
+        runtime.onStateChange.should.have.been.called;
+        runtime.onStateChange.should.always.have.been.calledWith(STATES.ONLINE);
+    });
+
+
+
 });
