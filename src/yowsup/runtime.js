@@ -17,12 +17,12 @@ class Runtime {
     /**
      *
      */
-    constructor(Logger, Emitter) {
+    constructor(Logger, Emitter, TestAPI, TestPayload) {
         Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
 
         _.extend(this, {
-            API: null,
-            CMD: null,
+            api: null,
+            cmd: null,
 
             // cli cmd path
             cliPath: '/usr/local/bin/yowsup-cli',
@@ -33,7 +33,9 @@ class Runtime {
             password: null,
 
             Logger: Logger,
-            Emitter: Emitter
+            Emitter: Emitter,
+            API: TestAPI || API, // bind fake API object, used for testing.
+            Payload: TestPayload || Payload // bind fake Payload object, used for testing.
         });
     }
 
@@ -68,15 +70,15 @@ class Runtime {
      *
      */
     getCMD() {
-        return this.CMD;
+        return this.cmd;
     }
 
 
     getAPI() {
-        if (null === this.API)
-            this.API = new API(this.getCMD(), this.Logger);
+        if (null === this.api)
+            this.api = new this.API(this.getCMD(), this.Logger);
 
-        return this.API;
+        return this.api;
     }
 
     /**
@@ -117,15 +119,15 @@ class Runtime {
 
         this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args.join(' '), options);
 
-        this.CMD = Spawn('python', args, options);
-        this.CMD.stdin.setEncoding('utf-8');
+        this.cmd = Spawn('python', args, options);
+        this.cmd.stdin.setEncoding('utf-8');
 
-        this.CMD.stdout.on('data', payload => {
+        this.cmd.stdout.on('data', payload => {
             payload = payload.toString().trim();
             this.onReceive(payload);
         });
 
-        this.CMD.on('close', () => {
+        this.cmd.on('close', () => {
             this.onClose();
         });
 
