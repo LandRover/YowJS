@@ -162,11 +162,11 @@ class Runtime {
 
         this.cmd.stdout.on('data', payload => {
             payload = payload.toString().trim();
-            this.onReceive(payload);
+            this._onReceive(payload);
         });
 
         this.cmd.on('close', () => {
-            this.onClose();
+            this._onClose();
         });
 
         return this;
@@ -176,7 +176,7 @@ class Runtime {
     /**
      * onClose event callback when process is dead / closed.
      */
-    onClose() {
+    _onClose() {
         this.Logger.log('debug', '[Runtime::onClose] Close of the Runtime is called.');
     }
 
@@ -194,8 +194,8 @@ class Runtime {
      *
      * @param {String} payload - incoming string from STDOUT of the process it binded to.
      */
-    onReceive(payload) {
-        this.Logger.log('silly', '[Runtime::onReceive::entry] Raw Message arrived', payload);
+    _onReceive(payload) {
+        this.Logger.log('silly', '[Runtime::_onReceive::entry] Raw Message arrived', payload);
 
         switch(payload) {
             case RESPONSES.CONNECTED:
@@ -207,18 +207,18 @@ class Runtime {
                 break;
 
             case RESPONSES.AUTH_ERROR:
-                this.onStateChange(STATES.AUTH_ERROR);
+                this._onStateChange(STATES.AUTH_ERROR);
                 break;
 
             case RESPONSES.AUTH_OK:
-                this.onStateChange(STATES.ONLINE);
+                this._onStateChange(STATES.ONLINE);
                 break;
 
             default:
                 let payloadMessage = new this.Payload(payload),
                     msg = payloadMessage.getMessage();
 
-                this.Logger.log('debug', '[Runtime::onReceive::default] Raw Message arrived', [payload, payloadMessage, msg]);
+                this.Logger.log('debug', '[Runtime::_onReceive::default] Raw Message arrived', [payload, payloadMessage, msg]);
 
                 if (TYPES.UNKNOWN !== msg.getType())
                     this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
@@ -235,7 +235,7 @@ class Runtime {
      *
      * @param {Symbol} state of the changed state to.
      */
-    onStateChange(state) {
+    _onStateChange(state) {
         switch(state) {
             case STATES.ONLINE:
                 this.Logger.log('warn', '[Runtime::onStateChange] [*] ONLINE');

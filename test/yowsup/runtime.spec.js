@@ -122,7 +122,7 @@ describe('YowJS::Runtime', () => {
 
 });
 
-describe('YowJS::Runtime::onReceive', () => {
+describe('YowJS::Runtime::_onReceive', () => {
     let runtime;
 
     beforeEach(() => {
@@ -149,7 +149,7 @@ describe('YowJS::Runtime::onReceive', () => {
 
 
     it('Should execute NOTHING on CONNECTED message', () => {
-        let connected = runtime.onReceive(RESPONSES.CONNECTED);
+        let connected = runtime._onReceive(RESPONSES.CONNECTED);
 
         expect(connected).to.be.undefined;
         runtime.Emitter.emit.should.not.have.been.called;
@@ -157,33 +157,54 @@ describe('YowJS::Runtime::onReceive', () => {
 
 
     it('Should execute login on OFFLINE message', () => {
-        let offline = runtime.onReceive(RESPONSES.OFFLINE);
+        let offline = runtime._onReceive(RESPONSES.OFFLINE);
         runtime.getAPI().login.should.have.been.called;
 
-        let offlineExtended = runtime.onReceive(RESPONSES.OFFLINE_EXTENDED);
+        let offlineExtended = runtime._onReceive(RESPONSES.OFFLINE_EXTENDED);
         runtime.getAPI().login.should.have.been.called;
     });
 
 
     it('Should execute stateChange on AUTH_ERROR message with AUTH_ERROR', () => {
-        runtime.onStateChange = sinon.spy();
+        runtime._onStateChange = sinon.spy();
 
-        let authError = runtime.onReceive(RESPONSES.AUTH_ERROR);
+        let authError = runtime._onReceive(RESPONSES.AUTH_ERROR);
 
-        runtime.onStateChange.should.have.been.called;
-        runtime.onStateChange.should.always.have.been.calledWith(STATES.AUTH_ERROR);
+        runtime._onStateChange.should.have.been.called;
+        runtime._onStateChange.should.always.have.been.calledWith(STATES.AUTH_ERROR);
     });
 
 
     it('Should execute stateChange on AUTH_OK with ONLINE flag', () => {
-        runtime.onStateChange = sinon.spy();
+        runtime._onStateChange = sinon.spy();
+        let authOK = runtime._onReceive(RESPONSES.AUTH_OK);
 
-        let authError = runtime.onReceive(RESPONSES.AUTH_OK);
+        runtime._onStateChange.should.have.been.called;
+        runtime._onStateChange.should.always.have.been.calledWith(STATES.ONLINE);
+    });
+});
 
-        runtime.onStateChange.should.have.been.called;
-        runtime.onStateChange.should.always.have.been.calledWith(STATES.ONLINE);
+
+describe('YowJS::Runtime::_onReceive', () => {
+    let runtime;
+
+    beforeEach(() => {
+        let Logger = {
+            log: sinon.spy()
+        };
+
+        let Emitter = {
+            emit: sinon.spy()
+        };
+
+        runtime = new Runtime(Logger, Emitter);
     });
 
 
+    it('Should change state when called', () => {
+        let stateChanged = runtime._onStateChange(STATES.ONLINE);
 
+        expect(stateChanged).to.be.undefined;
+        runtime.Emitter.emit.should.have.been.called;
+    });
 });
