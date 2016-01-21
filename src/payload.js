@@ -69,7 +69,6 @@ class Payload {
 
         return null;
     }
-
 }
 
 module.exports = Payload;
