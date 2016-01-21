@@ -4,14 +4,15 @@ const _ = require('lodash'),
       TYPES = require('./types'),
       IDENTIFIERS = require('../consts/identifiers');
 
-class HeatBeatModel {
+
+class HeatbeatModel {
     /**
      * Initialize heartbeat
      */
     constructor(heartbeatPayload) {
         _.extend(
             this,
-            this._initMessageModel(heartbeatPayload)
+            this._initHeartbeatModel(heartbeatPayload)
         );
     }
 
@@ -34,12 +35,12 @@ class HeatBeatModel {
 
     /**
      * Message formatter.
-     * Formats the MESSAGE by overriding the default values found at DEFAULT_MESSAGE.
+     * Formats the HEARTBEAT by overriding the default values found at DEFAULT.
      *
-     * @param {Array} payload - parsed regex array received from the message.
+     * @param {Array} payload - parsed regex array received from the heartbeat message.
      * @return {Object} message formated with the values extracted from the payload received.
      */
-    _initMessageModel(payload) {
+    _initHeartbeatModel(payload) {
         if (!_.isArray(payload)) return null; // if not an array.. return.
 
         let heartbeat = this.getDefaultHeartbeat();
@@ -64,4 +65,4 @@ class HeatBeatModel {
     }
 }
 
-module.exports = HeatBeatModel;
+module.exports = HeatbeatModel;

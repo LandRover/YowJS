@@ -3,6 +3,7 @@
 const _ = require('lodash'),
       TYPES = require('./types');
 
+
 /**
  * MessageBase.
  *
