@@ -56,6 +56,24 @@ describe('Valid payload', () => {
         expect(messageType).to.equal(TYPES.HEARTBEAT);
         expect(messageType).to.not.equal(TYPES.UNKNOWN);
     });
+
+
+    it('Should be a StateChanged Message for group', () => {
+        let payload = new Payload(MSG_POOL.MESSAGE_GROUP_STATE_CHANGED),
+            messageType = payload.getMessage().getType();
+
+        expect(messageType).to.equal(TYPES.STATE_CHANGED);
+        expect(messageType).to.not.equal(TYPES.UNKNOWN);
+    });
+
+
+    it('Should be a StateChanged Message for private chat', () => {
+        let payload = new Payload(MSG_POOL.MESSAGE_PRIVATE_STATE_CHANGED),
+            messageType = payload.getMessage().getType();
+
+        expect(messageType).to.equal(TYPES.STATE_CHANGED);
+        expect(messageType).to.not.equal(TYPES.UNKNOWN);
+    });
 });
 
 

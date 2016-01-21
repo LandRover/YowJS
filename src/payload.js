@@ -4,7 +4,8 @@ const payloadTypes = [
           require('./payload/payload_private'),
           require('./payload/payload_group'),
           require('./payload/payload_heartbeat'),
-          require('./payload/payload_confirmation')
+          require('./payload/payload_confirmation'),
+          require('./payload/payload_state_changed')
       ],
       MessageBase = require('./message/message_base');
 

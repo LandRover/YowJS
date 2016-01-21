@@ -1,7 +1,7 @@
 'use strict';
 
 let PayloadBase = require('./payload_base'),
-      HeartbeatModel = require('../message/heartbeat_model');
+    HeartbeatModel = require('../message/heartbeat_model');
 
 
 /**
