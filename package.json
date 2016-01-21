@@ -46,7 +46,7 @@
   },
   "scripts": {
     "test": "mocha && mocha test --require blanket --reporter html-cov > coverage.html",
-    "install_yowsup": "sudo easy_install yowsup2"
+    "postinstall": "sudo easy_install yowsup2"
   },
   "keywords": [
     "yowsup"
