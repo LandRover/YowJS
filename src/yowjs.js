@@ -76,7 +76,7 @@ class YowJS {
     image(to, path, caption) {
         this.Logger.log('debug', '[YowJS::image] Sending image to', to, path, caption);
 
-        this.Runtime.getAPI().say(to, path, caption);
+        this.Runtime.getAPI().image(to, path, caption);
 
         return this;
     }
