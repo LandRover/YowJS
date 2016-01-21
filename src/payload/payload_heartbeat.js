@@ -5,17 +5,14 @@ let PayloadBase = require('./payload_base'),
 
 
 /**
- * MessagePrivate Handles group messages arrived.
- *
- * All messages that match the pattern below, will be instances of this class.
- * Also the payload is the gateway to the messages after parsing.
+ * Heartbeat model Handles arriving heartbeat payloads and coverts them into a unified model structure.
  */
-class HeartBeat extends PayloadBase {
+class Heartbeat extends PayloadBase {
     /**
      * Creates a proper instance of a heartbeat
      *
      * @param {Object} modelData
-     * @return {MessageModel} instance
+     * @return {HeartBeatModel} instance
      */
     initializeModel(modelData) {
         return new HeartbeatModel(modelData);
@@ -23,7 +20,7 @@ class HeartBeat extends PayloadBase {
 
 
     /**
-     * Regex pattern for matching a group message format.
+     * Regex pattern for matching a heatbeat format.
      * Matching pattern of example: Iq:\nID: 99\nType: result\nfrom: 000000000000@s.whatsapp.net
      *
      * Structure:
@@ -37,4 +34,4 @@ class HeartBeat extends PayloadBase {
     }
 }
 
-module.exports = HeartBeat;
+module.exports = Heartbeat;
