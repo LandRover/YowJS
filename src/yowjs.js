@@ -26,8 +26,10 @@ class YowJS {
         _.extend(this, {
             Logger: Logger || LoggerDefault, // bind default logger if not found external one.
             Emitter: Emitter || EmitterDefault, // bind default emitter
-            Runtime: new RuntimeRef(Logger, Emitter)
+            Runtime: null
         });
+
+        this.Runtime = new RuntimeRef(this.Logger, this.Emitter);
     }
 
 
