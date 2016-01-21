@@ -218,7 +218,7 @@ class Runtime {
                 let payloadMessage = new this.Payload(payload),
                     msg = payloadMessage.getMessage();
 
-                this.Logger.log('debug', '[Runtime::_onReceive::default] Raw Message arrived', [payload, payloadMessage, msg]);
+                this.Logger.log('debug', '[Runtime::_onReceive::default] Raw Message arrived', payload);
 
                 if (TYPES.UNKNOWN !== msg.getType())
                     this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
@@ -246,7 +246,7 @@ class Runtime {
                 break;
 
             case STATES.AUTH_ERROR:
-                this.Logger.log('error', '[Runtime::onStateChange] [*] AUTH_ERROR', this);
+                this.Logger.log('error', '[Runtime::onStateChange] [*] AUTH_ERROR');
                 break;
         }
 

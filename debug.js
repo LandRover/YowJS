@@ -3,9 +3,9 @@
 const YowJS = require('./src/yowjs.js');
 
 let yowjs = new YowJS(),
-    countryCode = 1,
-    phoneNumber = 123,
-    password = '';
+    countryCode = 972,
+    phoneNumber = 542094491,
+    password = 'buwQyu2wAp2HQvRaRxstn0OTXiQ=';
 
 
 yowjs.initialize(
