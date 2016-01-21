@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
     CONNECTED: '[connected]:',
     OFFLINE: '[offline]:',

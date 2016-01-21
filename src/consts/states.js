@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
     ONLINE: Symbol(),
     OFFLINE: Symbol(),

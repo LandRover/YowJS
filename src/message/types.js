@@ -1,9 +1,7 @@
-const MESSAGE_TYPES = {
+module.exports = {
     MESSAGE_PRIVATE: Symbol(),
     MESSAGE_GROUP: Symbol(),
     CONFIRMATION: Symbol(),
     HEARTBEAT: Symbol(),
     UNKNOWN: Symbol()
 };
-
-module.exports = MESSAGE_TYPES;
