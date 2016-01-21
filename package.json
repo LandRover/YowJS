@@ -1,6 +1,6 @@
 {
   "name": "yowjs",
-  "version": "0.0.23",
+  "version": "0.1.0",
   "description": "YowJS",
   "main": "src/yowjs.js",
   "devDependencies": {
