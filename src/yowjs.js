@@ -3,7 +3,7 @@
 const _ = require('lodash'),
       EventEmitter = require('events').EventEmitter,
       EmitterDefault = new EventEmitter().on('error', () => {
-          console.log([YowJS::EventEmitter] Event fired error', arguments);
+          console.log(['[YowJS::EventEmitter] Event fired error', arguments]);
       }),
 
       EVENTS = require('./consts/events'),
@@ -19,8 +19,6 @@ class YowJS {
      *
      */
     constructor(Logger, Emitter, TestRuntime) {
-        let RuntimeRef = TestRuntime || Runtime;
-
         _.extend(this, {
             Logger: Logger || require('./utils/logger'), // bind default logger if not found external one.
             Emitter: Emitter || EmitterDefault, // bind default emitter
