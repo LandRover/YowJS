@@ -61,6 +61,30 @@ class YowJS {
     /**
      *
      */
+    say(to, text) {
+        this.Logger.log('debug', '[YowJS::say] Saying to', to, text);
+
+        this.Runtime.getAPI().say(to, text);
+
+        return this;
+    }
+
+
+    /**
+     *
+     */
+    image(to, path, caption) {
+        this.Logger.log('debug', '[YowJS::image] Sending image to', to, path, caption);
+
+        this.Runtime.getAPI().say(to, path, caption);
+
+        return this;
+    }
+
+
+    /**
+     *
+     */
     connect() {
         this.Logger.log('debug', '[YowJS::connect] Running runtime Python wrapper...');
 
