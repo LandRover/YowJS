@@ -12,7 +12,7 @@ class Confirmation extends PayloadBase {
      * Creates a proper instance of a heartbeat
      *
      * @param {Object} modelData
-     * @return {HeartBeatModel} instance
+     * @return {ConfirmationModel} instance
      */
     initializeModel(modelData) {
         return new ConfirmationModel(modelData);
@@ -20,7 +20,7 @@ class Confirmation extends PayloadBase {
 
 
     /**
-     * Regex pattern for matching a heatbeat format.
+     * Regex pattern for matching a confirmation format.
      * Matching pattern of example: Message ABCDEF1234567890ABC: Sent delivered receipt and Read\n[connected]:
      *
      * Structure:
