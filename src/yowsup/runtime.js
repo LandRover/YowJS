@@ -136,7 +136,7 @@ class Runtime {
             '-u', // Python flag for unbuffered binary stdout and stderr
             this.cliPath, // path to yowsup-cli python file
             'demos',
-            '-d', // Show debug messages
+            //'-d', // Show debug messages
             '-y', // Start the Yowsup command line client
             '-l', // --login
             this.getCredentials() // phone:b64password
