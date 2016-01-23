@@ -1,6 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
+const _ = require('lodash'),
+      fs = require('fs');
 
 
 /**
@@ -39,6 +40,12 @@ class API {
      *
      */
     image(to, path, caption, callback) {
+        if (!fs.existsSync(path)) {
+            this.Logger.log('error', '[API::image] Skipping action, Can NOT locate image path', path);
+
+            return false;
+        }
+
         return this._send([
             'image',
             'send',
