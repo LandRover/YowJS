@@ -30,7 +30,7 @@ class API {
             'message',
             'send',
             to,
-            text
+            '"'+ text +'"'
         ], callback);
     }
 
