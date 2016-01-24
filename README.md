@@ -1,4 +1,4 @@
-# YowJS
+# YowJS [![Build Status](https://travis-ci.org/LandRover/YowJS.svg?branch=master)](https://travis-ci.org/LandRover/YowJS)
 
 Lib info
 
