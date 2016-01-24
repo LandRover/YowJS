@@ -27,7 +27,7 @@ class API {
      *
      */
     say(to, text, callback) {
-        text = text.replace('"', "''");
+        text = text.replace('"', "''"); // escaping quotes
 
         this._send([
             'message',
