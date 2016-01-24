@@ -27,6 +27,8 @@ class API {
      *
      */
     say(to, text, callback) {
+        text = text.replace('"', "''");
+
         this._send([
             'message',
             'send',
