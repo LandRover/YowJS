@@ -43,7 +43,7 @@
     "url": "https://github.com/LandRover/YowJS/issues"
   },
   "scripts": {
-    "test": "mocha && mocha test --require blanket --reporter html-cov > coverage.html",
+    "test": "mocha test/*",
     "install_yowsup": "sudo easy_install yowsup2"
   },
   "keywords": [
