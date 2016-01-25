@@ -4,6 +4,7 @@
   "description": "YowJS",
   "main": "src/yowjs.js",
   "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
     "gulp": "^3.9.0",
     "gulp-batch": "^1.0.5",
     "gulp-eslint": "^1.1.1",
