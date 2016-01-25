@@ -136,7 +136,7 @@ class Runtime {
             '-u', // Python flag for unbuffered binary stdout and stderr
             this.cliPath, // path to yowsup-cli python file
             'demos',
-            //'-d', // Show debug messages
+            //'-d', // Show debug messages, Default: commented out, disabled.
             '-y', // Start the Yowsup command line client
             '-l', // --login
             this.getCredentials() // phone:b64password
@@ -177,7 +177,8 @@ class Runtime {
      * onClose event callback when process is dead / closed.
      */
     _onClose() {
-        this.Logger.log('debug', '[Runtime::onClose] Close of the Runtime is called.');
+        this.Logger.log('debug', '[Runtime::onClose] PROSEED CLOSED, Firing event.');
+        this.Emitter.emit(EVENTS.PROCESS_CLOSED);
     }
 
 

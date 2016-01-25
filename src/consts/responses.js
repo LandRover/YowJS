@@ -1,3 +1,6 @@
+/**
+ * Yowsap CLI responses, mapped to actions internally. This object is used a static dictionary.
+ */
 module.exports = {
     CONNECTED: '[connected]:',
     OFFLINE: '[offline]:',
