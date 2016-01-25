@@ -5,7 +5,7 @@ const _ = require('lodash'),
     Payload = require('../payload'),
     Spawn = require('child_process').spawn,
 
-    TYPES = require('../message/types'),
+    TYPES = require('../consts/types'),
     EVENTS = require('../consts/events'),
     RESPONSES = require('../consts/responses'),
     STATES = require('../consts/states');

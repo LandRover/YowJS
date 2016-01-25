@@ -2,7 +2,7 @@
 
 let chai = require('chai'),
     expect = chai.expect,
-    TYPES = require('../src/message/types'),
+    TYPES = require('../src/consts/types'),
     Payload = require('./../src/payload.js');
 
 let MSG_POOL = {

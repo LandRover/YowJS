@@ -2,7 +2,7 @@
 
 const _ = require('lodash'),
       MessageBase = require('./message_base'),
-      TYPES = require('./types');
+      TYPES = require('./../consts/types');
 
 class MessageModel extends MessageBase {
     /**

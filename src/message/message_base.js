@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash'),
-      TYPES = require('./types');
+      TYPES = require('./../consts/types');
 
 
 /**
