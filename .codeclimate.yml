@@ -1,0 +1,10 @@
+engines:
+  eslint:
+    enabled: false
+ratings:
+  path:
+    - "src/**"
+exclude_paths:
+  - "README.md"
+  - "package.json"
+  - "LICENSE"
