@@ -1,9 +1,12 @@
 'use strict';
 
 const _ = require('lodash'),
-      TYPES = require('./types');
+      TYPES = require('./../consts/types');
 
 
+/**
+ *
+ */
 class ConfirmationModel {
     /**
      * Initialize confirmation
@@ -46,6 +49,9 @@ class ConfirmationModel {
     }
 
 
+    /**
+     * Getter for the type of the message
+     */
     getType() {
         return TYPES.CONFIRMATION;
     }
