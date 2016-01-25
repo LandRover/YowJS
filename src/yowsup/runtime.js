@@ -10,6 +10,7 @@ const _ = require('lodash'),
     RESPONSES = require('../consts/responses'),
     STATES = require('../consts/states');
 
+
 /**
  * Runtime is the middleware to the Python and used as the abstraction that communicates over STDIN && STDOUT.
  *
