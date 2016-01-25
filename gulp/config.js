@@ -1,7 +1,7 @@
 module.exports = {
     path: {
         js: {
-            files: 'src/js/**/*.js'
+            files: 'src/**/*.js'
         },
         tasks: {
             files: 'gulp/**/*.js'
