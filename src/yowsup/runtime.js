@@ -161,7 +161,7 @@ class Runtime {
         this.cmd = this.Spawn('python', args, options);
         this.cmd.stdin.setEncoding('utf-8');
 
-        this.Logger.log('info', '[Runtime::run] Spawn new process of Python', this.cmd.pid);
+        this.Logger.log('info', '[Runtime::run] Spawn new process of Python, PID:', this.cmd.pid);
 
         this.cmd.stdout.on('data', payload => {
             payload = payload.toString().trim();
