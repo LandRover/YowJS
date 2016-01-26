@@ -8,12 +8,7 @@ const gulp = require('gulp'),
 
 gulp.task('eslint:js', () => {
     return gulp.src([config.path.js.files])
-        .pipe(eslint({
-            envs: [
-                'node'
-            ],
-            useEslintrc: true
-        }))
+        .pipe(eslint({useEslintrc: true}))
         .pipe(eslint.format())
         .pipe(eslint.failOnError());
 });
