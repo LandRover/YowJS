@@ -6,7 +6,9 @@ const _ = require('lodash'),
           console.log(['[YowJS::EventEmitter] Event fired error', arguments]); // eslint-disable-line no-console
       }),
 
-      EVENTS = require('./consts/events');
+      EVENTS = require('./consts/events'),
+      RESPONSES = require('./consts/responses'),
+      STATES = require('./consts/states');
 
 
 /**
@@ -44,12 +46,11 @@ class YowJS {
 
     /**
      * Getter for the Runtime commands API
-     * Enabling direct communication with yowsup-cli
      *
-     * @return {Object} API instance, of the runtime wrapper
+     * @return {Object} API instance, of the runtime wrapper enabling direc
      */
-    getAPI() {
-        this.Logger.log('debug', '[YowJS::getAPI] Getter for API was called');
+    send() {
+        this.Logger.log('debug', '[YowJS::send] Getter for API was called');
 
         return this.Runtime.getAPI();
     }

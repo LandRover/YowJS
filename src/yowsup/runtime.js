@@ -93,6 +93,10 @@ class Runtime {
      * @return {Object} Spawn referance to the process.
      */
     getCMD() {
+        if (null === this.cmd) {
+            this.run();
+        }
+
         return this.cmd;
     }
 
