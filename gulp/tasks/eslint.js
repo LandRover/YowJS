@@ -1,6 +1,7 @@
 'use strict';
+
 /**
- *
+ * Eslint task runner
  */
 const gulp = require('gulp'),
       eslint = require('gulp-eslint'),
