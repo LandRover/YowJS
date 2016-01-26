@@ -46,8 +46,9 @@ class YowJS {
 
     /**
      * Getter for the Runtime commands API
+     * Enabling direct communication with yowsup-cli
      *
-     * @return {Object} API instance, of the runtime wrapper enabling direct communication with yowsup-cli
+     * @return {Object} API instance, of the runtime wrapper
      */
     getAPI() {
         this.Logger.log('debug', '[YowJS::getAPI] Getter for API was called');
