@@ -1,7 +1,5 @@
 # YowJS
-[![Maintenance Status][status-image]][status-url] [![Dependency Status][deps-image]][deps-url] [![Build Status][travis-image]][travis-url]
-
-[![Build Status](https://travis-ci.org/LandRover/YowJS.svg?branch=master)](https://travis-ci.org/LandRover/YowJS)
+[![Maintenance Status][status-image]][status-url] [![NPM Version][npm-image]][npm-url] [![Dependency Status][deps-image]][deps-url] [![Build Status][travis-image]][travis-url] [![Code Climate][climate-image]][climate-url]
 
 Lib info
 
