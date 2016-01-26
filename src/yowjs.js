@@ -45,6 +45,18 @@ class YowJS {
 
 
     /**
+     * Getter for the Runtime commands API
+     *
+     * @return {Object} API instance, of the runtime wrapper enabling direct communication with yowsup-cli
+     */
+    getAPI() {
+        this.Logger.log('debug', '[YowJS::getAPI] Getter for API was called');
+
+        return this.Runtime.getAPI();
+    }
+
+
+    /**
      * on, allows subscribing to actions that are tramistted via events bus.
      *
      * @see: EVENTS object to see all actions.
@@ -61,39 +73,6 @@ class YowJS {
 
         this.Emitter.on(e, callback);
         this.Logger.log('silly', '[YowJS::on] Event subscribed', eventName);
-
-        return this;
-    }
-
-
-    /**
-     * Say is a gateway to the API allowing sending a text message to a phone number.
-     *
-     * @param {String} to - Phone number that will get the message.
-     * @param {String} text - of the message that will be sent.
-     * @return {Object} YowJS instance, of this - for chaining.
-     */
-    say(to, text) {
-        this.Logger.log('debug', '[YowJS::say] Saying to', to, text);
-
-        this.Runtime.getAPI().say(to, text);
-
-        return this;
-    }
-
-
-    /**
-     * Image - allows sending an image to a phone number.
-     *
-     * @param {String} to - Phone number that will get the message.
-     * @param {String} path - unix path to the image, must be valid and existing path to proceed (validated inside API.)
-     * @param {String} caption - is optional caption of the image. Will be attached if defined.
-     * @return {Object} YowJS instance, of this - for chaining.
-     */
-    image(to, path, caption) {
-        this.Logger.log('debug', '[YowJS::image] Sending image to', to, path, caption);
-
-        this.Runtime.getAPI().image(to, path, caption);
 
         return this;
     }
