@@ -38,13 +38,14 @@ class API {
      * @return {Promise} of the action state
      */
     say(to, text) {
-        text = text.replace('"', "''"); // escaping quotes
+        // escaping quotes
+        text = text.replace('"', "''"); // eslint-disable-line quotes
 
         return this._send([
             'message',
             'send',
             to,
-            '"'+ text +'"'
+            '"' + text + '"'
         ]);
     }
 
@@ -120,8 +121,9 @@ class API {
      * @return {Promise} after the action is executed.
      */
     _send(args) {
-        if (_.isArray(args))
+        if (_.isArray(args)) {
             args = args.join(' ');
+        }
 
         let command = [
                 '/', // cmd prefix, example: /message
@@ -132,7 +134,7 @@ class API {
         this.Logger.log('info', '[YowsupRuntime::send] Sending API call to service', command);
         this.cmd.stdin.write(command); // @todo: figure a proper way to get a callback when action successfully called.
 
-        return new Promise((fulfill, reject) => {
+        return new Promise((fulfill) => {
             setTimeout(() => {
                 fulfill();
             });

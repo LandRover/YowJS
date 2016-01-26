@@ -39,7 +39,7 @@ class StateChangedModel {
      * @return {Object} message formated with the values extracted from the payload received.
      */
     _initStateChangedModel(payload) {
-        if (!_.isArray(payload)) return null; // if not an array.. return.
+        if (!_.isArray(payload)) {return null;} // if not an array.. return.
 
         let stateChanged = this.getDefaultStateChanged();
 

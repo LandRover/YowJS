@@ -7,7 +7,7 @@ const gulp = require('gulp'),
       eslint = require('gulp-eslint'),
       config = require('./../config');
 
-gulp.task('eslint:js', () => {
+gulp.task('eslint', () => {
     return gulp.src([config.path.js.files])
         .pipe(eslint({useEslintrc: true}))
         .pipe(eslint.format())

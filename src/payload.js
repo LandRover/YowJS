@@ -32,8 +32,9 @@ class Payload {
      * @return {Message} object, matched by the payload regex settings
      */
     getMessage() {
-        if (null !== this.message)
+        if (null !== this.message) {
             return this.message; // return cached response.
+        }
 
         let payload = this.findPayloadByType(),
             message = null;
@@ -63,8 +64,9 @@ class Payload {
         for (let i = 0, len = payloadTypes.length; i < len; i++) {
             let type = new payloadTypes[i](this.payload);
 
-            if (false !== type.isItMe())
+            if (false !== type.isItMe()) {
                 return type;
+            }
         }
 
         return null;

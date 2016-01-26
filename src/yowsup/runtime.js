@@ -104,8 +104,9 @@ class Runtime {
      * @return {Object} API Instance
      */
     getAPI() {
-        if (null === this.api)
+        if (null === this.api) {
             this.api = new this.API(this.getCMD(), this.Logger);
+        }
 
         return this.api;
     }
@@ -137,7 +138,7 @@ class Runtime {
             '-u', // Python flag for unbuffered binary stdout and stderr
             this.cliPath, // path to yowsup-cli python file
             'demos',
-            //'--debug', // Show debug messages, Default: commented out, disabled.
+            // '--debug', // Show debug messages, Default: commented out, disabled.
             '--yowsup', // Start the Yowsup command line client
             '--login', // login flag
             this.getCredentials() // phone:b64password
@@ -158,7 +159,7 @@ class Runtime {
             options = {cwd: __dirname};
 
         this.Logger.log('info', '[Runtime::run] Executing Python Yowsup2-cli deamon', args.join(' '), options);
-        this.cmd = this.Spawn('python', args, options);
+        this.cmd = this.Spawn('python', args, options); // eslint-disable-line new-cap
         this.cmd.stdin.setEncoding('utf-8');
 
         this.Logger.log('info', '[Runtime::run] Spawn new process of Python, PID:', this.cmd.pid);
@@ -201,7 +202,7 @@ class Runtime {
     _onReceive(payload) {
         this.Logger.log('silly', '[Runtime::_onReceive::entry] Raw Message arrived', payload);
 
-        switch(payload) {
+        switch (payload) {
             case RESPONSES.CONNECTED:
                 break;
 
@@ -224,8 +225,9 @@ class Runtime {
 
                 this.Logger.log('debug', '[Runtime::_onReceive::default] Raw Message arrived', payload);
 
-                if (TYPES.UNKNOWN !== msg.getType())
+                if (TYPES.UNKNOWN !== msg.getType()) {
                     this.Emitter.emit(EVENTS.ON_MESSAGE, msg);
+                }
 
                 this.Emitter.emit(EVENTS.ON_MESSAGE_ANY, msg);
         }
@@ -240,7 +242,7 @@ class Runtime {
      * @param {Symbol} state of the changed state to.
      */
     _onStateChange(state) {
-        switch(state) {
+        switch (state) {
             case STATES.ONLINE:
                 this.Logger.log('warn', '[Runtime::onStateChange] [*] ONLINE');
                 break;

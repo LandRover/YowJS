@@ -43,7 +43,7 @@ class MessageModel extends MessageBase {
      * @return {Object} message formated with the values extracted from the payload received.
      */
     _initMessageModel(payload) {
-        if (!_.isArray(payload)) return null; // if not an array.. return.
+        if (!_.isArray(payload)) {return null;} // if not an array.. return.
 
         let message = this.getDefaultMessage();
 
@@ -54,7 +54,7 @@ class MessageModel extends MessageBase {
 
         if (0 < payload.length) {
             message.type = TYPES.MESSAGE_GROUP;
-            message.to = payload.shift() +'-'+ payload.shift();
+            message.to = payload.shift() + '-' + payload.shift();
         }
 
         return message;
@@ -72,7 +72,7 @@ class MessageModel extends MessageBase {
         date.shift(); // removes first match
 
         let year = date[2],
-            month = parseInt(date[1])-1,
+            month = parseInt(date[1]) - 1,
             day = date[0],
             hour = date[3],
             minute = date[4],

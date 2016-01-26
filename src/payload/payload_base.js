@@ -35,8 +35,9 @@ class BasePayload {
      */
     getMessage() {
         // return cached model, if exists.
-        if (null !== this.messageModel)
+        if (null !== this.messageModel) {
             return this.messageModel;
+        }
 
         // match pattern against payload received
         let matchPattern = this.regexMatch();

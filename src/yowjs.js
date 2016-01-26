@@ -3,12 +3,10 @@
 const _ = require('lodash'),
       EventEmitter = require('events').EventEmitter,
       EmitterDefault = new EventEmitter().on('error', () => {
-          console.log(['[YowJS::EventEmitter] Event fired error', arguments]);
+          console.log(['[YowJS::EventEmitter] Event fired error', arguments]); // eslint-disable-line no-console
       }),
 
-      EVENTS = require('./consts/events'),
-      RESPONSES = require('./consts/responses'),
-      STATES = require('./consts/states');
+      EVENTS = require('./consts/events');
 
 
 /**
