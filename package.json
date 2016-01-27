@@ -6,7 +6,6 @@
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
     "gulp": "^3.9.0",
-    "gulp-batch": "^1.0.5",
     "gulp-eslint": "^1.1.1",
     "gulp-jscpd": "^0.0.6",
     "gulp-notify": "^2.2.0",
