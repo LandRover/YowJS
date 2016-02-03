@@ -1,6 +1,6 @@
 {
   "name": "yowjs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "YowJS",
   "main": "src/yowjs.js",
   "devDependencies": {
@@ -24,8 +24,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "winston": "^2.1.1",
-    "lodash": "^4.0.0"
+    "winston": "^2.1.1"
   },
   "config": {
     "blanket": {
