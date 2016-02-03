@@ -184,7 +184,7 @@ class Runtime {
      * onClose event callback when process is dead / closed.
      */
     _onClose() {
-        this.Logger.log('debug', '[Runtime::onClose] PROSEED CLOSED, Firing event.');
+        this.Logger.log('debug', '[Runtime::onClose] PROCESS CLOSED, Firing event.');
         this.Emitter.emit(EVENTS.PROCESS_CLOSED);
     }
 
