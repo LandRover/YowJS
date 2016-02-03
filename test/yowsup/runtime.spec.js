@@ -1,7 +1,6 @@
 'use strict';
 
-let _ = require('lodash'),
-    chai = require('chai'),
+let chai = require('chai'),
     expect = chai.expect,
     sinon = require('sinon'),
     sinonChai = require('sinon-chai'),
