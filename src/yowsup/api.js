@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash'),
-      fs = require('fs');
+const fs = require('fs');
 
 
 /**
@@ -23,7 +22,7 @@ class API {
     constructor(cmd, Logger) {
         Logger.log('silly', '[API::Constructor] Initialized Constructor');
 
-        _.extend(this, {
+        Object.assign(this, {
             cmd: cmd,
             Logger: Logger
         });
@@ -121,7 +120,7 @@ class API {
      * @return {Promise} after the action is executed.
      */
     _send(args) {
-        if (_.isArray(args)) {
+        if (Array.isArray(args)) {
             args = args.join(' ');
         }
 

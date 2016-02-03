@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash'),
-      MessageBase = require('./message_base'),
+const MessageBase = require('./message_base'),
       TYPES = require('./../consts/types');
 
 class MessageModel extends MessageBase {
@@ -11,7 +10,7 @@ class MessageModel extends MessageBase {
     constructor(rawPayload) {
         super(rawPayload);
 
-        _.extend(
+        Object.assign(
             this,
             this._initMessageModel(this.rawPayload)
         );

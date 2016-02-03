@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash'),
-      TYPES = require('./../consts/types');
+const TYPES = require('./../consts/types');
 
 
 /**
@@ -12,7 +11,7 @@ class ConfirmationModel {
      * Initialize confirmation
      */
     constructor(confirmationPayload) {
-        _.extend(
+        Object.assign(
             this,
             this._initConfirmationModel(confirmationPayload)
         );

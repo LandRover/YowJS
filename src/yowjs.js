@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash'),
-      EventEmitter = require('events').EventEmitter,
+const EventEmitter = require('events').EventEmitter,
       EmitterDefault = new EventEmitter().on('error', () => {
           console.log(['[YowJS::EventEmitter] Event fired error', arguments]); // eslint-disable-line no-console
       }),
@@ -19,7 +18,7 @@ class YowJS {
      * Initializes the DI
      */
     constructor(Logger, Emitter, TestRuntime) {
-        _.extend(this, {
+        Object.assign(this, {
             Logger: Logger || require('./utils/logger'), // bind default logger if not found external one.
             Emitter: Emitter || EmitterDefault, // bind default emitter
             Runtime: TestRuntime || require('./yowsup/runtime') // default bind to Runtime object, for testing.

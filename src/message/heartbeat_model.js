@@ -10,7 +10,7 @@ class HeatbeatModel {
      * Initialize heartbeat
      */
     constructor(heartbeatPayload) {
-        _.extend(
+        Object.assign(
             this,
             this._initHeartbeatModel(heartbeatPayload)
         );
@@ -41,7 +41,7 @@ class HeatbeatModel {
      * @return {Object} message formated with the values extracted from the payload received.
      */
     _initHeartbeatModel(payload) {
-        if (!_.isArray(payload)) {return null;} // if not an array.. return.
+        if (!Array.isArray(payload)) {return null;} // if not an array.. return.
 
         let heartbeat = this.getDefaultHeartbeat();
 

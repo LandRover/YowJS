@@ -1,14 +1,13 @@
 'use strict';
 
-const _ = require('lodash'),
-    API = require('./api'),
-    Payload = require('../payload'),
-    Spawn = require('child_process').spawn,
+const API = require('./api'),
+      Payload = require('../payload'),
+      Spawn = require('child_process').spawn,
 
-    TYPES = require('../consts/types'),
-    EVENTS = require('../consts/events'),
-    RESPONSES = require('../consts/responses'),
-    STATES = require('../consts/states');
+      TYPES = require('../consts/types'),
+      EVENTS = require('../consts/events'),
+      RESPONSES = require('../consts/responses'),
+      STATES = require('../consts/states');
 
 
 /**
@@ -35,7 +34,7 @@ class Runtime {
     constructor(Logger, Emitter, TestAPI, TestPayload, TestSpawn) {
         Logger.log('silly', '[Runtime::Constructor] Initialized Constructor');
 
-        _.extend(this, {
+        Object.assign(this, {
             api: null,
             cmd: null,
 
