@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash'),
-      TYPES = require('./../consts/types'),
+const TYPES = require('./../consts/types'),
       IDENTIFIERS = require('../consts/identifiers');
 
 

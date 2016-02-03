@@ -42,7 +42,7 @@ class MessageModel extends MessageBase {
      * @return {Object} message formated with the values extracted from the payload received.
      */
     _initMessageModel(payload) {
-        if (!_.isArray(payload)) {return null;} // if not an array.. return.
+        if (!Array.isArray(payload)) {return null;} // if not an array.. return.
 
         let message = this.getDefaultMessage();
 

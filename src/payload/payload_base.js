@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
-
 /**
  * BasePayload.
  *
@@ -43,7 +41,7 @@ class BasePayload {
         let matchPattern = this.regexMatch();
 
         // create a model, if match found.
-        if (_.isArray(matchPattern)) {
+        if (Array.isArray(matchPattern)) {
             matchPattern.shift();
 
             return this.initializeModel(matchPattern);
