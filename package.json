@@ -26,6 +26,9 @@
   "dependencies": {
     "winston": "^2.1.1"
   },
+  "engines": {
+    "node": "4.2.4"
+  },
   "config": {
     "blanket": {
       "pattern": [
