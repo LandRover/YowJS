@@ -1,14 +1,62 @@
 # YowJS
 [![Maintenance Status][status-image]][status-url] [![NPM Version][npm-image]][npm-url] [![Dependency Status][deps-image]][deps-url] [![Build Status][travis-image]][travis-url] [![Code Climate][climate-image]][climate-url]
 
-Lib info
+## What is it?
+
+### About the package
+
+`yowjs` is a node module, distributed via NPM and allows you to easily intergrate `yowsup` (Python library) into a node application. `yowjs` is essantially an event
+based proxy and allows you easily to communicate with `yowsup` without any Python being involved.
+
+## Usage
+
+Add `yowjs` you your package.json file and install it via npm install. `yowjs` is dependent on `yowsup` and must be install manually.
+
+```
+npm install yowjs --save-dev
+```
+
+## Yowsup install (globally)
+```
+sudo easy_install yowsup2
+```
+
+### Example code
+
+```
+const YowJS = require('yowjs');
+
+let yowsup = new YowJS();
+
+// init the connection params
+yowsup.initialize(
+    config.countryCode,
+    config.phoneNumber,
+    config.password
+)
+.on('ON_MESSAGE', message => { // bind to incoming events from yowsup cli
+    console.log(['incoming msg', message]);
+})
+.on('LINK_DEAD', () => {
+    // re-init, connection lost
+    console.log('connection lost');
+})
+.connect(); // establish connection.
+```
 
 
-## Typed Error
+## Building
+Clone this repo (or fork it)
+```
+git clone git@github.com:landrover/yowjs.git
+```
+Install deps
+```
+npm install
+```
 
-## Installation
-
-`npm install yowjs`
+### Todo
+ * comments
 
 ## MIT Licenced
 
