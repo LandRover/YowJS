@@ -16,7 +16,7 @@ Add `yowjs` you your package.json file and install it via npm install. `yowjs` i
 npm install yowjs --save-dev
 ```
 
-## Yowsup install (globally)
+## Install `yowsup` (globally)
 ```
 sudo easy_install yowsup2
 ```
