@@ -142,6 +142,7 @@ class Runtime {
             this.cliPath, // path to yowsup-cli python file
             'demos',
             // '--debug', // Show debug messages, Default: commented out, disabled.
+            '--unmoxie', //Disable E2E Encryption
             '--yowsup', // Start the Yowsup command line client
             '--login', // login flag
             this.getCredentials() // phone:b64password
