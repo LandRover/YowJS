@@ -58,7 +58,7 @@ npm install
 ### Issues:
  * Sometimes the queue of the bot is too big and requires a cleanup (encryption etc..)
    * Run few times this: `yowsup-cli demos -e -d -l NUMBER:PWD`
-* UTF8 support, patched manually in Yowsup:
+ * UTF8 support, patched manually in Yowsup:
    * in `/usr/local/lib/python2.7/dist-packages/yowsup/layers/__init__.py` add at the top of the file:
 ```
 import sys
