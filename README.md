@@ -55,6 +55,10 @@ Install deps
 npm install
 ```
 
+### Issues:
+ * Sometimes the queue of the bot is too big and requires a cleanup (encryption etc..)
+   * Run few times this: `yowsup-cli demos -e -d -l NUMBER:PWD`
+
 ### Todo
  * comments
 
