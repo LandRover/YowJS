@@ -60,7 +60,8 @@ cli
 ```
 MCC/MNC: https://en.wikipedia.org/wiki/Mobile_country_code
 
-yowsup-cli registration --requestcode sms --phone 972XXXXXXX --cc 972 --mcc 425 --mnc 03 --env android
+yowsup-cli registration --requestcode sms --phone 972XXXXXXXXX --cc 972 --mcc 425 --mnc 03 --env android
+yowsup-cli registration --register 123456 --phone 972XXXXXXXXX --cc 972 --env android
 ```
 Install deps
 ```
