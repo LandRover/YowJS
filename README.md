@@ -68,13 +68,12 @@ Install deps
 npm install
 ```
 
-
 ### Issues:
  * Sometimes the queue of the bot is too big and requires a cleanup (encryption etc..)
    * Run few times this: `yowsup-cli demos -e -d -l NUMBER:PWD`
  * Minimum version bump `/usr/local/lib/python2.7/dist-packages/yowsup/env/env_android.py`
-   * _MD5_CLASSES = "YqW9KfOVL6cRD8aiNh8l6w=="
-   * _VERSION = "2.18.45"
+   * _MD5_CLASSES = "7/+9fBNI2d4/UxUiSUd+OQ=="
+   * _VERSION = "2.18.190"
  * UTF8 support, patched manually in Yowsup:
    * in `/usr/local/lib/python2.7/dist-packages/yowsup/layers/__init__.py` add at the top of the file:
 ```
