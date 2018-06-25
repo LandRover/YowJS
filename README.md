@@ -55,6 +55,19 @@ Install deps
 npm install
 ```
 
+## Setup new device
+cli
+```
+MCC/MNC: https://en.wikipedia.org/wiki/Mobile_country_code
+
+yowsup-cli registration --requestcode sms --phone 972XXXXXXX --cc 972 --mcc 425 --mnc 03 --env android
+```
+Install deps
+```
+npm install
+```
+
+
 ### Issues:
  * Sometimes the queue of the bot is too big and requires a cleanup (encryption etc..)
    * Run few times this: `yowsup-cli demos -e -d -l NUMBER:PWD`
