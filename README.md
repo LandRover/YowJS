@@ -3,6 +3,12 @@
 
 ## What is it?
 
+## :warning: Warning :warning:
+Unfortunately, due to recent updates in whatsapp servers, bots are beeing banned real quickly. My new numbers were banned within minutes.
+Since WhatsApp is a closed protocol, yowsup is responsible for the reverse engineering to understand the messages exchange from whatsapp server.
+If a new protocol will pop, project will return. Until then, sadly, the project will be on hold. Use on your own risk.
+
+
 ### About the package
 
 `yowjs` is a node module, distributed via NPM and allows you to easily intergrate `yowsup` (Python library) into a node application. `yowjs` is essantially an event
@@ -100,4 +106,4 @@ sys.setdefaultencoding('utf8')
 [climate-image]: https://img.shields.io/codeclimate/github/LandRover/YowJS.svg?style=flat
 
 [status-url]: https://github.com/LandRover/YowJS/pulse
-[status-image]: https://img.shields.io/badge/status-maintained-brightgreen.svg?style=flat
+[status-image]: https://img.shields.io/maintenance/yes/2017.svg?style=flat
