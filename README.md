@@ -1,8 +1,6 @@
 # YowJS
 [![Maintenance Status][status-image]][status-url] [![NPM Version][npm-image]][npm-url] [![Dependency Status][deps-image]][deps-url] [![Build Status][travis-image]][travis-url] [![Code Climate][climate-image]][climate-url]
 
-
-
 ## :warning: Warning :warning:
 Unfortunately, due to recent updates in whatsapp servers, bots are beeing banned real quickly. My new numbers were banned within minutes.
 Since WhatsApp is a closed protocol, yowsup is responsible for the reverse engineering to understand the messages exchange from whatsapp server.
