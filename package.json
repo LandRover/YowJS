@@ -21,7 +21,7 @@
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4",
     "webpack": "^1.12.12",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
     "winston": "^2.1.1"
